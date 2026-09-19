@@ -6,7 +6,7 @@ import Register from "../Register/Register"
 const DashboardRouter = createBrowserRouter(
     [
         {
-            path: "/",
+            path: "/login",
             Component: Login,
         },
         {
