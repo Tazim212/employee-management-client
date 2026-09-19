@@ -1,7 +1,9 @@
+import { Outlet } from "react-router";
+
 const Home = () =>{
     return(
-        <div className="font-bold">
-            helloo
+        <div>
+            {/* <Outlet></Outlet> */}
         </div>
     )
 }
