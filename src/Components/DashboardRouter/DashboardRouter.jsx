@@ -4,6 +4,7 @@ import Register from "../Register/Register"
 import Employees from "../../Pages/Employees"
 import Attendance from "../../Pages/Attendance"
 import Dashboard from "../../Pages/Dashboard"
+import EmployeeForm from "../EmployeeForm/EmployeeForm"
 
 const DashboardRouter = createBrowserRouter(
     [
@@ -23,10 +24,15 @@ const DashboardRouter = createBrowserRouter(
                     path: "/dashboard/employees",
                     Component: Employees
                 },
+                  {
+                    path: "/dashboard/empl_form",
+                    Component: EmployeeForm
+                },
                 {
                     path: "/dashboard/attendance",
                     Component: Attendance
                 },
+              
             ]
         },
 
