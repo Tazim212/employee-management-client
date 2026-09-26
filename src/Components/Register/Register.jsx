@@ -3,17 +3,26 @@ import { useForm } from "react-hook-form"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import { Link } from "react-router"
 import useAuth from "../../Hooks/useAuth"
+import useAxiosSecure from "../../Hooks/useAxiosSecure"
 
 const Register = () => {
     const { handleRegister } = useAuth()
     const { handleSubmit, register, formState: { errors } } = useForm()
     const [error, setError] = useState("")
     const [show, SetShow] = useState(false)
+    const axiosSecure = useAxiosSecure()
 
     const handleCreateUser = (data) => {
         handleRegister(data.email, data.password)
-            .then(res => {
-                console.log(res.user)
+            .then(() => {
+                const userInfo = {
+                    email: data.email,
+                    contact: data.phone
+                }
+                axiosSecure.post("/user", userInfo)
+                .then(res =>{
+                    console.log(res.data)
+                })
             })
             .catch(err => {
                 setError(err.message)
@@ -23,7 +32,7 @@ const Register = () => {
     return (
         <form onSubmit={handleSubmit(handleCreateUser)}>
             <div className="hero bg-linear-to-r from-blue-300 to-emerald-700 opacity-70 min-h-screen">
-                <div className="card bg-mauve-700 text-gray-100 w-full max-w-sm shrink-0 shadow-2xl">
+                <div className="card bg-mauve-700 text-black w-full max-w-sm shrink-0 shadow-2xl">
                     <h1 className="text-3xl text-center py-2 font-bold">Register now!</h1>
                     <div className="card-body">
                         <fieldset className="fieldset">
@@ -36,12 +45,7 @@ const Register = () => {
                                 className="input"
                                 maxLength={11}
                                 placeholder="Your Phone"
-                                {...register("phone"), {
-                                    pattern: {
-                                        value: /^[0-9]{11}$/,
-                                        message: "Phone Number must be 11 digits"
-                                    }
-                                }}
+                                {...register("phone")}
                             />
 
                             <label className="label">Password</label>

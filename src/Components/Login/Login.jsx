@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useAuth from "../../Hooks/useAuth";
 
 const Login = () => {
@@ -9,11 +9,13 @@ const Login = () => {
     const [show, SetShow] = useState(false)
     const [error, setError] = useState("")
     const { handleSigned } = useAuth()
+    const navigate = useNavigate()
 
     const handleLogin = (data) => {
         handleSigned(data.email, data.password)
         .then(res =>{
             console.log(res.user)
+            navigate("/dashboard")
         })
         .catch(err =>{
             setError(err.message)
