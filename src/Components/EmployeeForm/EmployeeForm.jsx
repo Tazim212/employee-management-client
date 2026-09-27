@@ -1,13 +1,27 @@
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAxios from "../../Hooks/useAxios";
+import { FaTrash } from "react-icons/fa";
 
 const EmployeeForm = () => {
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, control, reset } = useForm({
+        defaultValues: {
+            education: [
+                {
+                    degree_name: "",
+                    institution_name: "",
+                    subject: "",
+                    passing_year: "",
+                    result: ""
+                }
+            ]
+        }
+    })
+    const { fields, append, remove } = useFieldArray({ control, name: "education" })
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [districts, setDistricts] = useState([])
     const [upazilla, setUpazilla] = useState([])
@@ -61,7 +75,7 @@ const EmployeeForm = () => {
             {
                 step === 1 &&
                 <div className="border-2 rounded-2xl mx-5">
-                    <h1 className="text-xl ps-2 py-2 font-semibold">Employment Details</h1>
+                    <h1 className="text-md ps-2 py-2 font-semibold">Employment Details</h1>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 py-9 px-2">
                         <div className="flex flex-col gap-2">
                             <label className="label">Emloyee ID</label>
@@ -95,14 +109,14 @@ const EmployeeForm = () => {
                                 type="text"
                                 className="input"
                                 maxLength={11}
-                                placeholder="Phone Numer"
+                                placeholder="Phone Number"
                                 {...register("employee_phone")}
                             />
                         </div>
 
                         <div className="flex flex-col gap-2">
                             <label className="label">Department</label>
-                            <select defaultValue="Select Department" className="select select-ghost" {...register("employee_department")}>
+                            <select defaultValue="Select Department" className="select" {...register("employee_department")}>
                                 <option disabled={true} className="">Select Department</option>
                                 <option>Admin & HR</option>
                                 <option>IT</option>
@@ -171,11 +185,11 @@ const EmployeeForm = () => {
             {
                 step === 2 &&
                 <>
-                    <h1>Personal Details</h1>
+                    <h1 className="text-2xl font-bold ps-6 py-2">Personal Details</h1>
 
                     {/* Permanent Address */}
 
-                    <div className="border-2 rounded-2xl mx-5">
+                    <div className="border-2 rounded-2xl mx-5 bg-gray-100">
                         <h1 className="text-md font-semibold ps-2 py-3">Permanent Address</h1>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 py-9 px-2">
 
@@ -188,9 +202,10 @@ const EmployeeForm = () => {
                                     {...register("permanent_village")} />
 
                             </div>
+
                             <div className="flex flex-col gap-2">
                                 <label className="label">Division</label>
-                                <select defaultValue="Select Division" className="select select-ghost" {...register("permanent_division")}>
+                                <select defaultValue="Select Division" className="select" {...register("permanent_division")}>
                                     <option disabled={true} className="">Select Division</option>
                                     <option>Chittagong</option>
                                     <option>Rangpur</option>
@@ -205,7 +220,7 @@ const EmployeeForm = () => {
                             </div>
                             <div className="flex flex-col gap-2">
                                 <label className="label">District</label>
-                                <select defaultValue="Select District" className="select select-ghost" {...register("permanent_district")}>
+                                <select defaultValue="Select District" className="select" {...register("permanent_district")}>
                                     <option disabled={true} className="">Select District</option>
                                     {
                                         districts.map(dis => <option key={dis._id}>{dis.district}</option>)
@@ -217,7 +232,7 @@ const EmployeeForm = () => {
 
                             <div className="flex flex-col gap-2">
                                 <label className="label">Upazilla</label>
-                                <select defaultValue="Select Upazilla" className="select select-ghost" {...register("permanent_upazilla")}>
+                                <select defaultValue="Select Upazilla" className="select" {...register("permanent_upazilla")}>
                                     <option disabled={true} className="">Select Upazilla</option>
                                     {
                                         upazilla.map(upz => <option key={upz._id}>{upz.upazila}</option>)
@@ -261,7 +276,7 @@ const EmployeeForm = () => {
                             </div>
                             <div className="flex flex-col gap-2">
                                 <label className="label">Division</label>
-                                <select defaultValue="Select Division" className="select select-ghost" {...register("present_division")}>
+                                <select defaultValue="Select Division" className="select" {...register("present_division")}>
                                     <option disabled={true} className="">Select Division</option>
                                     <option>Chittagong</option>
                                     <option>Rangpur</option>
@@ -276,7 +291,7 @@ const EmployeeForm = () => {
                             </div>
                             <div className="flex flex-col gap-2">
                                 <label className="label">District</label>
-                                <select defaultValue="Select District" className="select select-ghost" {...register("present_district")}>
+                                <select defaultValue="Select District" className="select" {...register("present_district")}>
                                     <option disabled={true} className="">Select District</option>
                                     {
                                         districts.map(dis => <option key={dis._id}>{dis.district}</option>)
@@ -287,7 +302,7 @@ const EmployeeForm = () => {
 
                             <div className="flex flex-col gap-2">
                                 <label className="label">Upazilla</label>
-                                <select defaultValue="Select Upazilla" className="select select-ghost" {...register("present_upazilla")}>
+                                <select defaultValue="Select Upazilla" className="select" {...register("present_upazilla")}>
                                     <option disabled={true} className="">Select Upazilla</option>
                                     {
                                         upazilla.map(upz => <option key={upz._id}>{upz.upazila}</option>)
@@ -317,14 +332,103 @@ const EmployeeForm = () => {
                         <div className="flex justify-between mx-5 mb-3">
                             <button type="button" onClick={() => setStep(step - 1)} className="btn btn-success">Previous</button>
 
-                            <button type="button" onClick={() => setStep(3)} className="btn btn-info">Next</button>
+                            <button type="button" onClick={() => setStep(3)} className="btn btn-info w-30">Next</button>
                         </div>
                     </div>
 
                 </>
             }
 
-            {/* <button type="submit" className="btn btn-info mt-4 w-full text-center">Submit</button> */}
+            {
+                step === 3 &&
+                <>
+                    <h1 className="text-lg font-semibold ps-6 pb-6">Educaional Qualification</h1>
+                    {
+                        fields.map((field, i) =>
+                            <div key={field.id}>
+                                <div className="flex justify-around items-center space-y-2">
+                                    <div className="flex flex-col gap-2">
+                                        <label className="label">Degree Name</label>
+                                        <select defaultValue="Select Degree" className="select w-25" {...register(`education.${i}degree_name`)}>
+                                            <option disabled={true}>Select</option>
+                                            <option>SSC</option>
+                                            <option>HSC</option>
+                                            <option>Bachelor's</option>
+                                            <option>Master's</option>
+                                            <option>Diploma</option>
+                                            <option>Others</option>
+                                        </select>
+                                    </div>
+
+                                    <div className="flex flex-col gap-2">
+                                        <label className="label">Institution Name</label>
+                                        <input type="text" placeholder="Type here" className="input" {...register(`education.${i}.institution_name`)} />
+                                    </div>
+
+                                    <div className="flex flex-col gap-2">
+                                        <label className="label">Subject</label>
+                                        <input type="text" placeholder="Type here" className="input" {...register(`education.${i}.subject`)} />
+                                    </div>
+
+                                    <div className="flex flex-col gap-2">
+                                        <label className="label">Passing Year</label>
+                                        <input type="text" placeholder="Type here" className="input" {...register(`education.${i}.passing_year`)} />
+                                    </div>
+
+                                    <div className="flex flex-col gap-2">
+                                        <label className="label">Result</label>
+                                        <input type="text" placeholder="Type here" className="input" {...register(`education.${i}.result`)} />
+                                    </div>
+
+                                    <div className="flex items-center mt-5 gap-2">
+                                        <button
+                                            type="button"
+                                            className="btn btn-neutral"
+                                            onClick={() => append(
+                                                {
+                                                    degree_name: "",
+                                                    institution_name: "",
+                                                    subject: "",
+                                                    passing_year: "",
+                                                    result: ""
+                                                })}
+                                        >
+                                            +
+                                        </button>
+                                        {
+                                            i === 0 && (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-error"
+                                                    onClick={() => reset()}>
+                                                    <FaTrash></FaTrash>
+                                                </button>
+                                            )
+                                        }
+
+                                        {
+                                            i !== 0 && (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-error"
+                                                    onClick={() => remove(i)}
+                                                >
+                                                    <FaTrash></FaTrash>
+                                                </button>
+                                            )}
+                                    </div>
+
+                                </div>
+                            </div>
+                        )
+                    }
+                    <div className="flex justify-between mx-5 my-5">
+                        <button type="button" onClick={() => setStep(step - 1)} className="btn btn-success">Previous</button>
+
+                        <button type="submit" className="btn btn-info">Submit</button>
+                    </div>
+                </>
+            }
         </form>
     )
 }
