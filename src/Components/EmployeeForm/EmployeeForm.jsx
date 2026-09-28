@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { useFieldArray, useForm } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,10 +6,19 @@ import axios from "axios";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAxios from "../../Hooks/useAxios";
 import { FaTrash } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const EmployeeForm = () => {
     const { register, handleSubmit, control, reset } = useForm({
         defaultValues: {
+            experience: [
+                {
+                    organization_name: "",
+                    organization_address: "",
+                    duraion: "",
+                    designation: ""
+                }
+            ],
             education: [
                 {
                     degree_name: "",
@@ -21,7 +30,18 @@ const EmployeeForm = () => {
             ]
         }
     })
-    const { fields, append, remove } = useFieldArray({ control, name: "education" })
+    const { fields, append, remove } = useFieldArray(
+        { control, name: "education" }
+    )
+    const {
+        fields: experienceFields,
+        append: appendExperience,
+        remove: removeExperience
+    } = useFieldArray({
+        control,
+        name: "experience"
+    });
+
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [districts, setDistricts] = useState([])
     const [upazilla, setUpazilla] = useState([])
@@ -30,17 +50,22 @@ const EmployeeForm = () => {
     const axiosSecure = useAxiosSecure()
 
     // this api is for all district 
-    axiosInstance.get("/district")
-        .then(res => {
-            setDistricts(res.data)
-        })
+    useEffect(() => {
+        axiosInstance.get("/district")
+            .then(res => {
+                setDistricts(res.data)
+            })
+    }, [])
 
     // this api is for all upazilla
 
-    axiosInstance.get("/upazilla")
-        .then(res => {
-            setUpazilla(res.data)
-        })
+    useEffect(() => {
+        axiosInstance.get("/upazilla")
+            .then(res => {
+                setUpazilla(res.data)
+            })
+
+    }, [])
 
     const handleAddEmployee = async (data) => {
         const profileImg = data.employee_photo[0];
@@ -60,21 +85,58 @@ const EmployeeForm = () => {
             employee_designation: data.employee_designation,
             employee_email: data.employee_email,
             employee_joined_date: selectedDate.toISOString().split("T")[0],
-            employee_status: data.employee_status
+            employee_status: data.employee_status,
+            permanent_village: data.permanent_village,
+            permanent_division: data.permanent_division,
+            permanent_district: data.permanent_district,
+            permanent_upazila: data.permanent_upazila,
+            permanent_post_office: data.permanent_post_office,
+            permanent_postal_code: data.permanent_postal_code,
+            present_village: data.present_village,
+            present_division: data.present_division,
+            present_district: data.present_district,
+            present_upazila: data.present_upazila,
+            present_post_office: data.present_post_office,
+            present_postal_code: data.present_postal_code,
+            education: data.education,
+            experience: data.experience
         }
 
         axiosSecure.post("/new_empl", newEmployee)
             .then(res => {
-                console.log(res.data)
+                if (res.data.insertedId) {
+                    reset()
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "New Employee has been addeded successfully",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             })
     }
 
     return (
         <form onSubmit={handleSubmit(handleAddEmployee)}>
-            <h1 className="text-3xl text-center py-2 font-bold">Employee Form</h1>
+            <div className="flex justify-between items-center py-5 mx-5 bg-gray-300 px-2 rounded-xl">
+                <h1 className="text-3xl font-bold">Employee Form</h1>
+                <div className="space-x-3.5 flex justify-center items-center">
+                    <button type="submit" className="btn btn-info">Submit</button>
+                    <button type="button" className="btn btn-error">Cancel</button>
+                </div>
+
+            </div>
+
+            <div className="flex justify-baseline items-center gap-5 mx-5 my-5">
+                <button onClick={() => setStep(1)} className="btn btn-soft btn-succ">Employment (1)</button>
+                <button onClick={() => setStep(2)} className="btn btn-soft btn-succ">Personal Details (2)</button>
+                <button onClick={() => setStep(3)} className="btn btn-soft btn-succ">Educational Qualification (3)</button>
+                <button onClick={() => setStep(4)} className="btn btn-soft btn-succ">Job Experience (4)</button>
+            </div>
             {
                 step === 1 &&
-                <div className="border-2 rounded-2xl mx-5">
+                <div className="border-2 rounded-2xl mx-5 bg-gray-100">
                     <h1 className="text-md ps-2 py-2 font-semibold">Employment Details</h1>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 py-9 px-2">
                         <div className="flex flex-col gap-2">
@@ -82,6 +144,7 @@ const EmployeeForm = () => {
                             <input
                                 type="number"
                                 className="input"
+                                minLength={5}
                                 maxLength={5}
                                 placeholder="Employee Id"
                                 {...register("employee_id")} />
@@ -93,7 +156,6 @@ const EmployeeForm = () => {
                             <input
                                 type="text"
                                 className="input"
-                                maxLength={11}
                                 placeholder="Employee Name"
                                 {...register("employee_name")}
                             />
@@ -182,16 +244,16 @@ const EmployeeForm = () => {
                     </div>
                 </div>
             }
+
             {
                 step === 2 &&
                 <>
-                    <h1 className="text-2xl font-bold ps-6 py-2">Personal Details</h1>
-
                     {/* Permanent Address */}
 
                     <div className="border-2 rounded-2xl mx-5 bg-gray-100">
-                        <h1 className="text-md font-semibold ps-2 py-3">Permanent Address</h1>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 py-9 px-2">
+                        <h1 className="text-md font-bold ps-2 py-2">Personal Details</h1>
+                        <h1 className="text-sm font-semibold ps-2 py-1">Permanent Address</h1>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 py-3 px-2">
 
                             <div className="flex flex-col gap-2">
                                 <label className="label">Village</label>
@@ -232,7 +294,7 @@ const EmployeeForm = () => {
 
                             <div className="flex flex-col gap-2">
                                 <label className="label">Upazilla</label>
-                                <select defaultValue="Select Upazilla" className="select" {...register("permanent_upazilla")}>
+                                <select defaultValue="Select Upazilla" className="select" {...register("permanent_upazila")}>
                                     <option disabled={true} className="">Select Upazilla</option>
                                     {
                                         upazilla.map(upz => <option key={upz._id}>{upz.upazila}</option>)
@@ -260,10 +322,11 @@ const EmployeeForm = () => {
 
                             </div>
                         </div>
+
                         {/* Present Address  */}
 
-                        <h1 className="text-md font-semibold ps-2 py-3">Present Address</h1>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 py-9 mx-3 ">
+                        <h1 className="text-sm font-semibold ps-2 py-2">Present Address</h1>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 py-3 mx-3 ">
 
                             <div className="flex flex-col gap-2">
                                 <label className="label">Village</label>
@@ -302,7 +365,7 @@ const EmployeeForm = () => {
 
                             <div className="flex flex-col gap-2">
                                 <label className="label">Upazilla</label>
-                                <select defaultValue="Select Upazilla" className="select" {...register("present_upazilla")}>
+                                <select defaultValue="Select Upazilla" className="select" {...register("present_upazila")}>
                                     <option disabled={true} className="">Select Upazilla</option>
                                     {
                                         upazilla.map(upz => <option key={upz._id}>{upz.upazila}</option>)
@@ -342,15 +405,15 @@ const EmployeeForm = () => {
             {
                 step === 3 &&
                 <>
-                    <h1 className="text-lg font-semibold ps-6 pb-6">Educaional Qualification</h1>
+                    <h1 className="text-md font-semibold ps-6 pb-6">Educaional Qualification</h1>
                     {
                         fields.map((field, i) =>
                             <div key={field.id}>
-                                <div className="flex justify-around items-center space-y-2">
+                                <div className="flex justify-around items-center space-y-2 bg-gray-100">
                                     <div className="flex flex-col gap-2">
                                         <label className="label">Degree Name</label>
-                                        <select defaultValue="Select Degree" className="select w-25" {...register(`education.${i}degree_name`)}>
-                                            <option disabled={true}>Select</option>
+                                        <select defaultValue="Select Degree" className="select w-25" {...register(`education.${i}.degree_name`)}>
+                                            <option>Select</option>
                                             <option>SSC</option>
                                             <option>HSC</option>
                                             <option>Bachelor's</option>
@@ -424,8 +487,83 @@ const EmployeeForm = () => {
                     }
                     <div className="flex justify-between mx-5 my-5">
                         <button type="button" onClick={() => setStep(step - 1)} className="btn btn-success">Previous</button>
+                        <button type="button" onClick={() => setStep(step + 1)} className="btn btn-info">Next</button>
+                    </div>
+                </>
+            }
 
-                        <button type="submit" className="btn btn-info">Submit</button>
+            {
+                step === 4 &&
+                <>
+                    <h1 className="text-md font-semibold ps-6 pb-6">Job Experience</h1>
+                    {
+                        experienceFields.map((field, i) =>
+                            <div key={field.id}>
+                                <div className="flex justify-around items-center space-y-2 bg-gray-100">
+
+                                    <div className="flex flex-col gap-2">
+                                        <label className="label">Organization Name</label>
+                                        <input type="text" placeholder="Type here" className="input" {...register(`experience.${i}.organization_name`)} />
+                                    </div>
+
+                                    <div className="flex flex-col gap-2">
+                                        <label className="label">Organization Address</label>
+                                        <input type="text" placeholder="Type here" className="input" {...register(`experience.${i}.organization_address`)} />
+                                    </div>
+
+                                    <div className="flex flex-col gap-2">
+                                        <label className="label">Designation</label>
+                                        <input type="text" placeholder="Type here" className="input" {...register(`experience.${i}.designation`)} />
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        <label className="label">Duration</label>
+                                        <input type="text" placeholder="Type here" className="input" {...register(`experience.${i}.duration`)} />
+                                    </div>
+
+                                    <div className="flex items-center mt-5 gap-2">
+                                        <button
+                                            type="button"
+                                            className="btn btn-neutral"
+                                            onClick={() => appendExperience(
+                                                {
+                                                    organization_name: "",
+                                                    organization_address: "",
+                                                    duration: "",
+                                                    designation: "",
+                                                }
+                                            )}
+                                        >
+                                            +
+                                        </button>
+                                        {
+                                            i === 0 && (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-error"
+                                                    onClick={() => reset()}>
+                                                    <FaTrash></FaTrash>
+                                                </button>
+                                            )
+                                        }
+
+                                        {
+                                            i !== 0 && (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-error"
+                                                    onClick={() => removeExperience(i)}
+                                                >
+                                                    <FaTrash></FaTrash>
+                                                </button>
+                                            )}
+                                    </div>
+
+                                </div>
+                            </div>
+                        )
+                    }
+                    <div className="flex justify-between mx-5 my-5">
+                        <button type="button" onClick={() => setStep(step - 1)} className="btn btn-success">Previous</button>
                     </div>
                 </>
             }
