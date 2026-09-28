@@ -14,7 +14,7 @@ const Login = () => {
     const handleLogin = (data) => {
         handleSigned(data.email, data.password)
         .then(res =>{
-            console.log(res.user)
+            // console.log(res.user)
             navigate("/dashboard")
         })
         .catch(err =>{
