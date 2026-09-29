@@ -83,6 +83,7 @@ const EmployeeForm = () => {
             employee_phone: data.employee_phone,
             employee_department: data.employee_department,
             employee_designation: data.employee_designation,
+            employee_gender: data.employee_gender,
             employee_email: data.employee_email,
             employee_joined_date: selectedDate.toISOString().split("T")[0],
             employee_status: data.employee_status,
@@ -205,6 +206,14 @@ const EmployeeForm = () => {
                             </select>
                         </div>
 
+                        <div className="flex flex-col gap-2">
+                            <label className="label">Gender</label>
+                            <select defaultValue="Select" className="select select-ghost" {...register("employee_gender")}>
+                                <option className="text-gray-50">Select</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                            </select>
+                        </div>
                         <div className="flex flex-col gap-2">
                             <label className="label">Employee Email</label>
                             <input

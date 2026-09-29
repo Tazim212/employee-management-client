@@ -1,12 +1,13 @@
 import { useParams } from "react-router";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useEffect, useState } from "react";
-import { SiMailbox } from "react-icons/si";
-import { IoMailSharp } from "react-icons/io5";
+import { SiJoplin, SiMailbox } from "react-icons/si";
+import { IoMailSharp, IoPersonSharp } from "react-icons/io5";
 import { MdOutlineAccessTime } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
+import { FaBookOpen, FaEdit } from "react-icons/fa";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import 'react-tabs/style/react-tabs.css';
+import { TbListDetails } from "react-icons/tb";
 
 const EmployeeProfile = () => {
     const { empl_id } = useParams()
@@ -23,8 +24,15 @@ const EmployeeProfile = () => {
 
     return (
         <div className="w-290 mx-auto">
-            <div className="bg-linear-to-r from-blue-300 to-emerald-700">
-                <img src={profile.employee_photo} alt="" className="rounded-xl w-22 h-25 relative top-13 left-3.5" />
+            <div style={{
+                backgroundImage: `url(${profile.employee_photo})`,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                height: "200px",
+                objectFit: "cover",
+                position: "relative"
+            }}>
+                <img src={profile.employee_photo} alt="" className="rounded-full w-30 h-35 object-cover relative top-30 left-3.5" />
             </div>
 
             <div className="mt-20 flex gap-5">
@@ -58,69 +66,166 @@ const EmployeeProfile = () => {
                 </div>
             </div>
 
-            {/* Tabs  */}
+            {/* Tabs-- 1  */}
 
-            <Tabs forceRenderTabPanel defaultIndex={1}>
+            <Tabs forceRenderTabPanel>
                 <TabList>
                     <Tab>Employment Details</Tab>
                     <Tab>Personal Details</Tab>
                     <Tab>Educational Details</Tab>
                     <Tab>Job Experience</Tab>
                 </TabList>
+
                 <TabPanel>
-                    <Tabs forceRenderTabPanel>
-                        <TabPanel>
-                            <p>Husband of Marge; father of Bart, Lisa, and Maggie.</p>
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/02/Homer_Simpson_2006.png/212px-Homer_Simpson_2006.png" alt="Homer Simpson" />
-                        </TabPanel>
-                        <TabPanel>
-                            <p>Wife of Homer; mother of Bart, Lisa, and Maggie.</p>
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/0b/Marge_Simpson.png/220px-Marge_Simpson.png" alt="Marge Simpson" />
-                        </TabPanel>
-                        <TabPanel>
-                            <p>Oldest child and only son of Homer and Marge; brother of Lisa and Maggie.</p>
-                            <img src="https://upload.wikimedia.org/wikipedia/en/a/aa/Bart_Simpson_200px.png" alt="Bart Simpson" />
-                        </TabPanel>
-                        <TabPanel>
-                            <p>Middle child and eldest daughter of Homer and Marge; sister of Bart and Maggie.</p>
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/e/ec/Lisa_Simpson.png/200px-Lisa_Simpson.png" alt="Lisa Simpson" />
-                        </TabPanel>
-                        <TabPanel>
-                            <p>Youngest child and daughter of Homer and Marge; sister of Bart and Lisa.</p>
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9d/Maggie_Simpson.png/223px-Maggie_Simpson.png" alt="Maggie Simpson" />
-                        </TabPanel>
-                    </Tabs>
+                    {/* Employment Details  */}
+                    <div className="bg-gray-200 p-3">
+                        <h1 className="text-lg font-bold pb-3 flex items-center gap-2"><span><IoPersonSharp /></span>Employment Details</h1>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <h2 className="font-semibold">Name</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_name}</p>
+                            </div>
+                            <div>
+                                <h2 className="font-semibold">Department</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_department}</p>
+                            </div>
+                            <div>
+                                <h2 className="font-semibold">Designation</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_designation}</p>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </TabPanel>
+
                 <TabPanel>
-                    <Tabs forceRenderTabPanel>
-                        <TabPanel>
-                            <p>Protagonist, from the 20th Century. Delivery boy. Many times great-uncle to Professor Hubert Farnsworth. Suitor of Leela.</p>
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/2/28/Philip_Fry.png/175px-Philip_Fry.png" alt="Philip J. Fry" />
-                        </TabPanel>
-                        <TabPanel>
-                            <p>Mutant cyclops. Captain of the Planet Express Ship. Love interest of Fry.</p>
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Turanga_Leela.png/150px-Turanga_Leela.png" alt="Turanga Leela" />
-                        </TabPanel>
-                        <TabPanel>
-                            <p>A kleptomaniacal, lazy, cigar-smoking, heavy-drinking robot who is Fry's best friend. Built in Tijuana, Mexico, he is the Planet Express Ship's cook.</p>
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a6/Bender_Rodriguez.png/220px-Bender_Rodriguez.png" alt="Bender Bending Rodriguez" />
-                        </TabPanel>
-                        <TabPanel>
-                            <p>Chinese-Martian intern at Planet Express. Fonfon Ru of Kif Kroker.</p>
-                        </TabPanel>
-                        <TabPanel>
-                            <p>Many times great-nephew of Fry. CEO and owner of Planet Express delivery company. Tenured professor of Mars University.</p>
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/0f/FuturamaProfessorFarnsworth.png/175px-FuturamaProfessorFarnsworth.png" alt="Professor Hubert J. Farnsworth" />
-                        </TabPanel>
-                        <TabPanel>
-                            <p>Alien from Decapod 10. Planet Express' staff doctor and steward. Has a medical degree and Ph.D in art history.</p>
-                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/4a/Dr_John_Zoidberg.png/200px-Dr_John_Zoidberg.png" alt="Doctor John Zoidberg" />
-                        </TabPanel>
-                    </Tabs>
+                    {/* contact  */}
+                    <div className="bg-gray-200 p-3">
+                        <h1 className="text-lg font-bold pb-3 flex items-center gap-2"><span><TbListDetails /></span>Contact Information</h1>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <h2 className="font-semibold">Employee Email</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_email}</p>
+                            </div>
+                            <div>
+                                <h2 className="font-semibold">Phone Number</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_phone}</p>
+                            </div>
+                            <div>
+                                <h2 className="font-semibold">Gender</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_gender}</p>
+                            </div>
+
+                        </div>
+                        {/* permanent address  */}
+
+                        <div>
+                            <h1 className="text-lg font-bold pb-3 mt-10">Permanent Address</h1>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <h2 className="font-semibold">Village</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_village}</p>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold">Division</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_division}</p>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold">District</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_district}</p>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold">Upazila</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_upazila}</p>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold">Post Office</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_post_office}</p>
+                                </div>
+                            </div>
+                            {/* present address  */}
+
+                            <h1 className="text-lg font-bold pb-3 mt-10">Present Address</h1>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <h2 className="font-semibold">Village</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_village}</p>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold">Division</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_division}</p>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold">District</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_district}</p>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold">Upazila</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_upazila}</p>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold">Post Office</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_post_office}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </TabPanel>
+
+                <TabPanel>
+                    {/* Educational Details  */}
+                    <div className="bg-gray-200 p-3">
+                        <h1 className="text-lg font-bold pb-3 flex items-center gap-2"><span><FaBookOpen /></span>Educational Qualification</h1>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {
+                                profile.education?.map((edu, i) =>
+                                    <div key={i} className="aura aura-dual my-9">
+                                        <div className="card bg-base-100">
+                                            <div className="card-body">
+                                                <h1 className="font-semibold"><span className="font-bold text-lg">Degree Name:</span> {edu.degree_name}</h1>
+                                                <p className="font-semibold"><span className="font-bold text-lg">Institution Name: </span> {edu.institution_name}</p>
+                                                <p className="font-semibold"><span className="font-bold text-lg">Subject:</span> {edu.subject}</p>
+                                                <p className="font-semibold"><span className="font-bold text-lg">Passing Year: </span> {edu.passing_year}</p>
+                                                <p className="font-semibold"><span className="font-bold text-lg">Result: </span> {edu.result}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    </div>
+                </TabPanel>
+
+
+                <TabPanel>
+                    {/* Job Experience  */}
+                    <div className="bg-gray-200 p-3">
+                        <h1 className="text-lg font-bold pb-3 flex items-center gap-2"><span><SiJoplin /></span>Job Experience</h1>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {
+                                profile.experience?.map((exp, i) =>
+                                    <div key={i} className="aura aura-dual my-9">
+                                        <div className="card bg-base-100">
+                                            <div className="card-body">
+                                                <h1 className="font-semibold"><span className="font-bold text-lg">Organization Name:</span> {exp.organization_name}</h1>
+                                                <p className="font-semibold"><span className="font-bold text-lg">Organization Address: </span> {exp.organization_address}</p>
+                                                <p className="font-semibold"><span className="font-bold text-lg">Designation:</span> {exp.designation}</p>
+                                                <p className="font-semibold"><span className="font-bold text-lg">Duration: </span> {exp.duration}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+
+                        </div>
+                    </div>
+
                 </TabPanel>
             </Tabs>
-
-        </div>
+        </div >
     )
 }
 export default EmployeeProfile;
+
+
