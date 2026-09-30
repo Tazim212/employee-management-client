@@ -9,7 +9,7 @@ import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const EmployeeForm = () => {
-    const { register, handleSubmit, control, reset } = useForm({
+    const { register, handleSubmit, control, reset, formState: { errors } } = useForm({
         defaultValues: {
             experience: [
                 {
@@ -130,10 +130,10 @@ const EmployeeForm = () => {
             </div>
 
             <div className="flex justify-baseline items-center gap-5 mx-5 my-5">
-                <button onClick={() => setStep(1)} className="btn btn-soft btn-succ">Employment (1)</button>
-                <button onClick={() => setStep(2)} className="btn btn-soft btn-succ">Personal Details (2)</button>
-                <button onClick={() => setStep(3)} className="btn btn-soft btn-succ">Educational Qualification (3)</button>
-                <button onClick={() => setStep(4)} className="btn btn-soft btn-succ">Job Experience (4)</button>
+                <button type="button" onClick={() => setStep(1)} className="btn btn-soft btn-succ">Employment (1)</button>
+                <button type="button" onClick={() => setStep(2)} className="btn btn-soft btn-succ">Personal Details (2)</button>
+                <button type="button" onClick={() => setStep(3)} className="btn btn-soft btn-succ">Educational Qualification (3)</button>
+                <button type="button" onClick={() => setStep(4)} className="btn btn-soft btn-succ">Job Experience (4)</button>
             </div>
             {
                 step === 1 &&
@@ -145,10 +145,14 @@ const EmployeeForm = () => {
                             <input
                                 type="number"
                                 className="input"
-                                minLength={5}
-                                maxLength={5}
                                 placeholder="Employee Id"
-                                {...register("employee_id")} />
+                                {...register("employee_id",
+                                    {
+                                        max: { value: "10000" },
+                                        min: { value: "99999" }
+                                    })}
+                            />
+                            {errors?.employee_id && <span className="text-red-600 text-md">ID must be 5 digits</span>}
 
                         </div>
 

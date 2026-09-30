@@ -4,16 +4,47 @@ import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router";
 import { FaEye, FaTrash } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
+import Swal from "sweetalert2";
 
 const Employees = () => {
     const axiosSecure = useAxiosSecure()
-    const { data: employees = [] } = useQuery({
+    const { data: employees = [], refetch } = useQuery({
         queryKey: ["employees"],
         queryFn: async () => {
             const res = await axiosSecure.get("/employees")
             return res.data
         }
     })
+
+    const handleDeleteEmpl = empl_id => {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: `Are you sure you want to delete ID : ${empl_id}`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/empl/${empl_id}`)
+                    .then(res => {
+                        if (res.data.deletedCount) {
+                            refetch()
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                        }
+                    })
+            }
+        }
+
+        );
+    }
 
     return (
         <div>
@@ -24,7 +55,7 @@ const Employees = () => {
             <div className="flex justify-between items-center p-5 bg-gray-300 rounded-xl mx-5">
                 <h1 className="text-2xl font-bold">Employee List</h1>
 
-                <Link to="/dashboard/empl_form"><button className="btn btn-info">New Employee</button></Link>
+                <Link to="/dashboard/empl_form"><button className="btn btn-info rounnded-2xl">New Employee</button></Link>
             </div>
             <div className="overflow-x-auto">
                 <table className="table table-zebra w-11/12 mx-6 my-3">
@@ -50,7 +81,7 @@ const Employees = () => {
                                     <td className="flex gap-2">
                                         <Link to={`/dashboard/empl/${emp.employee_id}`}><span><FaEye></FaEye></span></Link>
                                         <Link><span><FiEdit></FiEdit></span></Link>
-                                        <Link><span><FaTrash></FaTrash></span></Link>
+                                        <span onClick={() => handleDeleteEmpl(emp.employee_id)} className="cursor-pointer"><FaTrash></FaTrash></span>
                                     </td>
                                 </tr>
                             )

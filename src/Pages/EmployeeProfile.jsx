@@ -13,7 +13,7 @@ const EmployeeProfile = () => {
     const { empl_id } = useParams()
     const axiosSecure = useAxiosSecure()
     const [profile, setProfile] = useState([])
-
+    
     useEffect(() => {
         axiosSecure.get(`/empl/${empl_id}`)
             .then(res => {
@@ -30,7 +30,6 @@ const EmployeeProfile = () => {
                 backgroundRepeat: "no-repeat",
                 height: "200px",
                 objectFit: "cover",
-                position: "relative"
             }}>
                 <img src={profile.employee_photo} alt="" className="rounded-full w-30 h-35 object-cover relative top-30 left-3.5" />
             </div>
@@ -53,7 +52,7 @@ const EmployeeProfile = () => {
 
             <div className="flex gap-5 my-4">
                 <div>
-                    <h1 className="font-bold">Employee Id</h1>
+                    <h1 className="font-bold">Employee ID</h1>
                     <span>{profile.employee_id}</span>
                 </div>
                 <div>
