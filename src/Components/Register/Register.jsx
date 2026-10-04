@@ -1,16 +1,18 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import useAuth from "../../Hooks/useAuth"
 import useAxiosSecure from "../../Hooks/useAxiosSecure"
+import Swal from "sweetalert2"
 
 const Register = () => {
     const { handleRegister } = useAuth()
-    const { handleSubmit, register, formState: { errors } } = useForm()
+    const { handleSubmit, register, formState: { errors },reset } = useForm()
     const [error, setError] = useState("")
     const [show, SetShow] = useState(false)
     const axiosSecure = useAxiosSecure()
+    const navigate = useNavigate()
 
     const handleCreateUser = (data) => {
         handleRegister(data.email, data.password)
@@ -20,9 +22,19 @@ const Register = () => {
                     contact: data.phone
                 }
                 axiosSecure.post("/user", userInfo)
-                .then(res =>{
-                    console.log(res.data)
-                })
+                    .then(res => {
+                        if (res.data.insertedId) {
+                            reset()
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "New User has been registered successfully",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            navigate("/dashboard")
+                        }
+                    })
             })
             .catch(err => {
                 setError(err.message)
