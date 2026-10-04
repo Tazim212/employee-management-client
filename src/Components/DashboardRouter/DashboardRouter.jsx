@@ -6,6 +6,7 @@ import Attendance from "../../Pages/Attendance"
 import Dashboard from "../../Pages/Dashboard"
 import EmployeeForm from "../EmployeeForm/EmployeeForm"
 import EmployeeProfile from "../../Pages/EmployeeProfile"
+import EmployeeEdit from "../EmployeeEdit/EmployeeEdit"
 
 const DashboardRouter = createBrowserRouter(
     [
@@ -36,6 +37,10 @@ const DashboardRouter = createBrowserRouter(
                 {
                     path: "/dashboard//empl/:empl_id",
                     Component: EmployeeProfile
+                },
+                {
+                    path: "/dashboard//empl_edit/:empl_id",
+                    Component: EmployeeEdit
                 },
               
             ]
