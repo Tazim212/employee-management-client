@@ -7,6 +7,12 @@ import Dashboard from "../../Pages/Dashboard"
 import EmployeeForm from "../EmployeeForm/EmployeeForm"
 import EmployeeProfile from "../../Pages/EmployeeProfile"
 import EmployeeEdit from "../EmployeeEdit/EmployeeEdit"
+import Home from "../../Pages/Home"
+import Payroll from "../../Pages/Payroll"
+import Recruitment from "../../Pages/Recruitment"
+import Performance from "../../Pages/Performance"
+import Settings from "../../Pages/Settings"
+import PayrollForm from "../PayrollForm/PayrollForm"
 
 const DashboardRouter = createBrowserRouter(
     [
@@ -20,8 +26,12 @@ const DashboardRouter = createBrowserRouter(
         },
         {
             path: "/dashboard",
-            Component: Dashboard,
+            Component: Home,
             children: [
+                {
+                    path: "/dashboard",
+                    Component: Dashboard
+                },
                 {
                     path: "/dashboard/employees",
                     Component: Employees
@@ -39,8 +49,28 @@ const DashboardRouter = createBrowserRouter(
                     Component: EmployeeProfile
                 },
                 {
-                    path: "/dashboard//empl_edit/:empl_id",
+                    path: "/dashboard/empl_edit/:empl_id",
                     Component: EmployeeEdit
+                },
+                {
+                    path: "/dashboard/payroll",
+                    Component: Payroll
+                },
+                {
+                    path: "/dashboard/payroll_form",
+                    Component: PayrollForm
+                },
+                {
+                    path: "/dashboard/recruitment",
+                    Component: Recruitment
+                },
+                {
+                    path: "/dashboard/performance",
+                    Component: Performance
+                },
+                {
+                    path: "/dashboard/settings",
+                    Component: Settings
                 },
               
             ]
