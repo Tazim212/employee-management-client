@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useRef, useState } from "react";
+import { FaPenAlt } from "react-icons/fa";
 
 const Payroll = () => {
     const axiosSecure = useAxiosSecure()
@@ -24,9 +25,9 @@ const Payroll = () => {
             })
     }
 
-   const totalPaySum = payDetails.meal_allowance + payDetails.basic_salary + payDetails.home_allowance + payDetails.tour_allowance
+    const totalPaySum = payDetails.meal_allowance + payDetails.basic_salary + payDetails.home_allowance + payDetails.tour_allowance
 
-   const totalDeduction = payDetails.health_insurance + payDetails.income_tax
+    const totalDeduction = payDetails.health_insurance + payDetails.income_tax
 
     return (
         <div>
@@ -42,19 +43,22 @@ const Payroll = () => {
                 <table className="table w-287.5 ms-7">
                     <thead>
                         <tr className="bg-gray-500 text-gray-100">
+                            <th>#</th>
                             <th>Employee Name</th>
                             <th>Department</th>
                             <th>Base Salary</th>
                             <th>Allowances</th>
                             <th>Deductions</th>
                             <th>Net Pay</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            payrolls.map(payroll =>
+                            payrolls.map((payroll, i) =>
                                 <tr key={payroll._id}>
+                                    <td>{i + 1}</td>
                                     <td>{payroll.employee_name}</td>
                                     <td>{payroll.employee_department}</td>
                                     <td className="text-amber-600">$ {payroll.basic_salary}</td>
@@ -63,7 +67,9 @@ const Payroll = () => {
                                     <td>
                                         $ {payroll.basic_salary + payroll.home_allowance + payroll.tour_allowance + payroll.meal_allowance - payroll.income_tax + payroll.health_insurance}
                                     </td>
-                                    <td>
+                                    <td><div className="badge badge-accent text-black">{payroll.status ? payroll.status : "null"}</div></td>
+                                    <td className="space-x-2">
+                                        <Link to={`/dashboard/payroll_edit/${payroll._id}`}><button className="btn btn-outline btn-success"><FaPenAlt></FaPenAlt></button></Link>
                                         <button onClick={() => handleOpenModal(payroll._id)} className="btn btn-primary">Payslip</button>
                                     </td>
                                 </tr>

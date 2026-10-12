@@ -2,10 +2,12 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import DatePicker from "react-datepicker";
 
 const PayrollForm = () => {
-    const { handleSubmit, register, watch } = useForm()
+    const { handleSubmit, register, watch, setValue } = useForm()
     const [employees, setEmployees] = useState([])
+    const [selectedDate, setSelectedDate] = useState(new Date())
     const navigate = useNavigate()
     const axiosSecure = useAxiosSecure()
 
@@ -16,18 +18,29 @@ const PayrollForm = () => {
             })
     }, [])
 
-    const department = watch("department")
+    // const emplId = watch("employee_name")
+
+    // const selectEMpl = employees.find(e => e.employee_name === emplId)
+
+    // useEffect(() => {
+    //     setValue(
+    //         "employee_department",
+    //         selectEMpl?.employee_department || ""
+    //     );
+    // }, [selectEMpl, setValue]);
 
     const handleAddPayroll = data => {
         const addPayroll = {
             employee_name: data.employee_name,
             employee_department: data.employee_department,
+            salary_month: selectedDate.toISOString().split("T")[0],
             basic_salary: Number(data.basic_salary),
             home_allowance: Number(data.home_allowance),
             tour_allowance: Number(data.tour_allowance),
             meal_allowance: Number(data.meal_allowance),
             income_tax: Number(data.income_tax),
-            health_insurance: Number(data.health_insurance)
+            health_insurance: Number(data.health_insurance),
+            status: data.status
         }
 
         axiosSecure.post("/empl_pay", addPayroll)
@@ -64,13 +77,26 @@ const PayrollForm = () => {
                         <div className="flex flex-col gap-2">
                             <label className="label">Department</label>
                             <select defaultValue="Select Department" className="select" {...register("employee_department")}>
-                                <option disabled={true} className="">Select Department</option>
+                                <option>Select Department</option>
                                 <option value="Admin & HR">Admin & HR</option>
                                 <option value="IT">IT</option>
                                 <option value="Accounts">Accounts</option>
                                 <option value="Audit">Audit</option>
                             </select>
                         </div>
+                        <div className="flex flex-col gap-2">
+                            <label className="label">Salary Month</label>
+                            <DatePicker
+                                selected={selectedDate}
+                                onChange={setSelectedDate}
+                                peekNextMonth
+                                showMonthYearPicker
+                                dropdownMode="select"
+                                dateFormat="MM/yyyy"
+                                className="input input-bordered"
+                            />
+                        </div>
+
                         <div className="flex flex-col gap-2">
                             <label className="label">Basic Salary</label>
                             <input
@@ -79,7 +105,6 @@ const PayrollForm = () => {
                                 placeholder="$basic salary"
                                 {...register("basic_salary")}
                             />
-
                         </div>
 
                         <div className="flex flex-col gap-2">
@@ -115,7 +140,7 @@ const PayrollForm = () => {
                         {/* Deduction  */}
 
                         <div className="flex flex-col gap-2">
-                            <label className="label">Income Taz</label>
+                            <label className="label">Income Tax</label>
                             <input
                                 type="number"
                                 className="input"
@@ -135,8 +160,17 @@ const PayrollForm = () => {
                                 {...register("health_insurance")}
                             />
                         </div>
-
+                        <div className="flex flex-col gap-2 ps-2">
+                            <label className="label">Status</label>
+                            <select defaultValue="Select Department" className="select w-30" {...register("status")}>
+                                <option >Select</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Processing">Processing</option>
+                                <option value="Paid">Paid</option>
+                            </select>
+                        </div>
                     </div>
+
                     <button type="submit" className="btn btn-info m-2 flex justify-end">Submit</button>
 
                 </div>

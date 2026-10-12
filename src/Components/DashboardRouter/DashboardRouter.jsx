@@ -13,6 +13,7 @@ import Recruitment from "../../Pages/Recruitment"
 import Performance from "../../Pages/Performance"
 import Settings from "../../Pages/Settings"
 import PayrollForm from "../PayrollForm/PayrollForm"
+import PayrollEditForm from "../PayrollEditForm/PayrollEditForm"
 
 const DashboardRouter = createBrowserRouter(
     [
@@ -59,6 +60,10 @@ const DashboardRouter = createBrowserRouter(
                 {
                     path: "/dashboard/payroll_form",
                     Component: PayrollForm
+                },
+                {
+                    path: "/dashboard/payroll_edit/:id",
+                    Component: PayrollEditForm
                 },
                 {
                     path: "/dashboard/recruitment",
