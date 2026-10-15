@@ -158,10 +158,10 @@ const EmployeeForm = () => {
             </div>
 
             <div className="flex justify-baseline items-center gap-5 mx-5 my-5">
-                <button type="button" onClick={() => setStep(1)} className="btn btn-soft btn-success">Employment (1)</button>
-                <button type="button" onClick={() => setStep(2)} className="btn btn-soft btn-success">Personal Details (2)</button>
-                <button type="button" onClick={() => setStep(3)} className="btn btn-soft btn-success">Educational Qualification (3)</button>
-                <button type="button" onClick={() => setStep(4)} className="btn btn-soft btn-success">Job Experience (4)</button>
+                <button type="button" onClick={() => setStep(1)} className={step === 1 ? "btn btn-success active:bg-green-900": "btn"}>Employment (1)</button>
+                <button type="button" onClick={() => setStep(2)} className={step === 2 ? "btn btn-success active:bg-green-900": "btn"}>Personal Details (2)</button>
+                <button type="button" onClick={() => setStep(3)} className={step === 3 ? "btn btn-success active:bg-green-900": "btn"}>Educational Qualification (3)</button>
+                <button type="button" onClick={() => setStep(4)} className={step === 4 ? "btn btn-success active:bg-green-900": "btn"}>Job Experience (4)</button>
             </div>
 
             <div className={step === 1 ? "block" : "hidden"}>
