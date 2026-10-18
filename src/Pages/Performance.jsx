@@ -10,6 +10,7 @@ const Performance = () => {
     const axiosSecure = useAxiosSecure();
     const [employees, setEmployees] = useState([])
     const [status, setStatus] = useState([])
+    const [allReview, setallReview] = useState([])
     const [selectedEmpl, setSelectedEmpl] = useState(null)
     const { handleSubmit, register, reset, control } = useForm({
         defaultValues: {
@@ -27,6 +28,16 @@ const Performance = () => {
             })
     }, [])
 
+     // ---------------all Reviews ------------
+
+    useEffect(() => {
+        axiosSecure.get(`/all_review`)
+            .then(res => {
+                refetch()
+                setallReview(res.data)
+            })
+    }, [])
+
     const { data: review = [], refetch } = useQuery({
         queryKey: ["review"],
         queryFn: async () => {
@@ -36,13 +47,12 @@ const Performance = () => {
     })
 
     useEffect(() => {
-        axiosSecure.get(`/empl_review?status=CompleteD`)
+        axiosSecure.get(`/empl_reviews?status=Completed`)
             .then(res => {
                 refetch()
                 setStatus(res.data)
             })
     }, [])
-
 
     const handleEmpl = employee => {
         setSelectedEmpl(employee)
@@ -77,32 +87,34 @@ const Performance = () => {
             })
     }
 
+    const notCompleted = review.filter(rev =>rev.reviewStatus === "Not Completed")
+    console.log(notCompleted)
     return (
         <div>
-            <div className="flex justify-between items-center my-2 mx-6 bg-gray-200 p-2 rounded-2xl">
+            <div className="flex justify-between items-center my-2 mx-6 bg-gray-200 px-2 py-1 rounded-2xl">
                 <div>
                     <h1 className="text-xl font-bold">Performance Reviews</h1>
                     <p>Manage and complete manager reviews for the Q3 2026 cycle.</p>
                 </div>
 
                 <div className="stats stats-vertical lg:stats-horizontal shadow">
-                    <div className="stat">
+                    <div className="p-2">
                         <div className="stat-title">Total Reviews</div>
                         <div className="flex items-center gap-1">
                             <div aria-label="status" className="status status-accent"></div>
-                            <h2>{review.length}</h2>
+                            <h2>{allReview.length}</h2>
                         </div>
                     </div>
 
-                    <div className="stat">
-                        <div className="stat-title">In Progress</div>
+                    <div className="p-2">
+                        <div className="stat-title">Not Completed</div>
                         <div className="flex items-center gap-1">
                             <div aria-label="status" className="status status-accent"></div>
-                            <h2>9</h2>
+                            <h2>{notCompleted.length}</h2>
                         </div>
                     </div>
 
-                    <div className="stat">
+                    <div className="p-2">
                         <div className="stat-title">Completed</div>
                         <div className="flex items-center gap-1">
                             <div aria-label="status" className="status status-accent"></div>
@@ -148,8 +160,8 @@ const Performance = () => {
 
                     <div className="overflow-scroll h-76 w-96 space-y-4">
                         {
-                            employees.map(empl =>
-                                <div onClick={() => handleEmpl(empl)} key={empl._id} className="flex justify-baseline gap-3 cursor-pointer hover:bg-gray-200 px-5 rounded-xl">
+                            review.map(empl =>
+                                <div onClick={() => handleEmpl(empl)} key={empl._id} className="flex gap-3 cursor-pointer hover:bg-gray-200 px-2 rounded-xl">
                                     <div className="avatar">
                                         <div className="mask mask-squircle h-12 w-12">
                                             <img
@@ -157,14 +169,22 @@ const Performance = () => {
                                                 alt="Avatar Tailwind CSS Component" />
                                         </div>
                                     </div>
-                                    <div className="text-left">
-                                        <div className="font-bold">{empl.employee_name}</div>
-                                        <div className="text-sm opacity-50">{empl.employee_designation}</div>
+
+                                    <div className="flex justify-between items-center gap-5">
+                                        <div>
+                                            <div className="font-bold">{empl.employee_name}</div>
+                                            <div className="text-sm opacity-50">{empl.employee_designation}</div>
+                                        </div>
+                                        <div>
+                                            <div className="badge badge-soft badge-primary">{empl.reviewStatus}</div>
+                                            <p>{empl.created_at}</p>
+                                        </div>
                                     </div>
                                 </div>
                             )
                         }
                     </div>
+
                 </div>
 
                 <div>
@@ -322,7 +342,13 @@ const Performance = () => {
 
                                     <div className="flex justify-evenly items-center my-4 w-11/12">
                                         <p className="ps-2">Rate all four KPIs and add comments to enable submission.</p>
-                                        <button type="submit" className="btn btn-success">Submit Review</button>
+                                        <button
+                                            type="submit"
+                                            className="btn btn-success"
+                                            disabled={!selectedEmpl || selectedEmpl.reviewStatus === "Completed"}
+                                        >
+                                            Submit Review
+                                        </button>
                                     </div>
                                 </div>
                             </form>
