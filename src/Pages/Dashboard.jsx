@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import useAxios from "../Hooks/useAxios";
+import Navbar from "../Components/Navbar/Navbar";
+import Footer from "../Components/Footer/Footer";
 
 const Dashboard = () => {
     const axiosInstance = useAxios()
@@ -9,12 +11,11 @@ const Dashboard = () => {
         axiosInstance.get("/employee-stats")
             .then(res => {
                 setStates(res.data)
-                // console.log(res.data)
             })
     }, [])
 
     return (
-        <div className="my-3">
+        <div className="mb-40">
             <div className="stats shadow">
                 <div className="stat">
                     <div className="stat-figure text-secondary">

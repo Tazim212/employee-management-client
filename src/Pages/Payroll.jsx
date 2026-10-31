@@ -32,7 +32,7 @@ const Payroll = () => {
             .then(res => {
                 setStat(res.data)
             })
-    },[])
+    }, [])
 
     const handleOpenModal = (id) => {
         modalRef.current.showModal()
@@ -42,47 +42,56 @@ const Payroll = () => {
             })
     }
 
+    const formatNumber = (number) => {
+        return new Intl.NumberFormat("en", {
+            notation: "compact",
+            compactDisplay: "short",
+        }).format(number);
+    };
+
     const totalPaySum = payDetails.meal_allowance + payDetails.basic_salary + payDetails.home_allowance + payDetails.tour_allowance
 
     const totalDeduction = payDetails.health_insurance + payDetails.income_tax
+    console.log(stat)
+
     return (
         <div>
             <div className="flex justify-between items-center my-2 mx-6 bg-gray-200 p-2 rounded-2xl">
                 <div>
-                    <h1 className="text-xl font-bold">Payroll</h1>
-                    <p>Manage salary disbursements and payslips</p>
+                    <h1 className="text-xl font-bold">Salary Structure</h1>
+                    <p>Configure and manage employee salary components.</p>
                 </div>
-                <Link to="/dashboard/payroll_form"><button className="btn btn-soft btn-warning">Add Employee Payroll</button></Link>
+                <Link to="/dashboard/module_payroll/payroll_form"><button className="btn btn-soft btn-warning">Add Employee Payroll</button></Link>
             </div>
 
             <div className="my-3 space-x-9">
                 <div className="stats shadow">
                     <div className="stat">
                         <div className="stat-title text-xl font-bold">Total Payroll Cost</div>
-                        <div className="stat-value font-semibold flex items-center gap-1"><span><TbCoinTaka /> </span>{stat[0]?.total[0]?.total}</div>
+                        <div className="stat-value font-bold flex items-center gap-1"><span><TbCoinTaka /></span> {formatNumber(stat[0]?.total[0]?.total)}</div>
                         <div className="stat-desc pb-1 text-black">21% more than last month</div>
                         <progress className="progress w-56" value="70" max="100"></progress>
                     </div>
                 </div>
                 <div className="stats shadow">
                     <div className="stat">
-                        <div className="stat-title text-xl font-bold">Employee Paid</div>
-                        <div className="stat-value">{stat[0]?.paid?.length}</div>
-                        <div className="stat-desc pb-1 text-black">of total {employees.length} employees</div>
+                        <div className="stat-title text-xl font-bold">Total Allowance</div>
+                        <div className="stat-value flex items-center gap-1"><span><TbCoinTaka /></span>{formatNumber(stat[0]?.payrollDash[0]?.totalAllowance)}</div>
+                        <div className="stat-desc pb-1 text-black">All the allowances</div>
                         <progress className="progress w-56" value="70" max="100"></progress>
                     </div>
                 </div>
                 <div className="stats shadow">
                     <div className="stat">
-                        <div className="stat-title text-xl font-bold">Pending</div>
-                       <div className="stat-value">{stat[0]?.pending?.length}</div>
-                        <div className="stat-desc pb-1 text-black">21% more than last month</div>
-                       <progress className="progress w-56" value="70" max="100"></progress>
+                        <div className="stat-title text-xl font-bold">Average Basic</div>
+                        <div className="stat-value flex items-center gap-1"><span><TbCoinTaka /></span>{formatNumber(stat[0]?.payrollDash[0]?.averageBasic)}</div>
+                        <div className="stat-desc pb-1 text-black">Based on total employee</div>
+                        <progress className="progress w-56" value="70" max="100"></progress>
                     </div>
                 </div>
                 <div className="stats shadow">
                     <div className="stat">
-                        <div className="stat-title text-xl font-bold">Processing</div>
+                        <div className="stat-title text-xl font-bold">Last Updated</div>
                         <div className="stat-value">{stat[0]?.processing?.length}</div>
                         <div className="stat-desc pb-1 text-black">Being Verified</div>
                         <progress className="progress w-56" value="70" max="100"></progress>
@@ -116,11 +125,11 @@ const Payroll = () => {
                                     <td className="text-green-700">$ {payroll.home_allowance + payroll.tour_allowance + payroll.meal_allowance}</td>
                                     <td className="text-red-600">$ {payroll.income_tax + payroll.health_insurance}</td>
                                     <td>
-                                        $ {(payroll.basic_salary + payroll.home_allowance + payroll.tour_allowance + payroll.meal_allowance )- (payroll.income_tax + payroll.health_insurance)}
+                                        $ {(payroll.basic_salary + payroll.home_allowance + payroll.tour_allowance + payroll.meal_allowance) - (payroll.income_tax + payroll.health_insurance)}
                                     </td>
                                     <td><div className="badge badge-accent text-black">{payroll.status ? payroll.status : "null"}</div></td>
                                     <td className="space-x-2">
-                                        <Link to={`/dashboard/payroll_edit/${payroll._id}`}><button className="btn btn-outline btn-success"><FaEdit></FaEdit></button></Link>
+                                        <Link to={`/dashboard/payroll_edit/${payroll._id}`}><button className="btn btn-outline btn-success" title="Edit"><FaEdit></FaEdit></button></Link>
                                         <button onClick={() => handleOpenModal(payroll._id)} className="btn btn-primary">Payslip</button>
                                     </td>
                                 </tr>

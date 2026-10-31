@@ -57,7 +57,7 @@ const Employees = () => {
                 confirmButtonText: "Yes, Edit"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    navigate(`/dashboard//empl_edit/${empl_id}`)
+                    navigate(`/dashboard/module_hr/empl/${empl_id}`)
                 }
             });
     }
@@ -71,7 +71,7 @@ const Employees = () => {
             <div className="flex justify-between items-center p-2 bg-gray-300 rounded-xl ms-6 w-11/12">
                 <h1 className="text-xl font-bold">Employee List</h1>
 
-                <Link to="/dashboard/empl_form"><button className="btn btn-info rounnded-2xl">New Employee</button></Link>
+                <Link to="/dashboard/module_hr/new_empl"><button className="btn btn-info rounnded-2xl">New Employee</button></Link>
             </div>
             <div className="overflow-x-auto">
                 <table className="table table-zebra w-11/12 mx-6 my-3">
@@ -96,7 +96,7 @@ const Employees = () => {
                                     <td>{emp.employee_joined_date}</td>
                                     <td className="flex gap-2">
 
-                                        <Link to={`/dashboard/empl/${emp.employee_id}`}><span><FaEye></FaEye></span></Link>
+                                        <Link to={`/dashboard/module_hr/empl_prof/${emp.employee_id}`}><span><FaEye></FaEye></span></Link>
                                         <button onClick={() =>handleEdit(emp.employee_id)} className="cursor-pointer text-green-700"><FiEdit></FiEdit></button>
                                         <span onClick={() => handleDeleteEmpl(emp.employee_id)} className="cursor-pointer text-red-600"><FaTrash></FaTrash></span>
                                     </td>

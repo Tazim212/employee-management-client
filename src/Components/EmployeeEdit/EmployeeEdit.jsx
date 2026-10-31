@@ -4,7 +4,7 @@ import useAxios from "../../Hooks/useAxios";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import DatePicker from "react-datepicker";
 import { FaTrash } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
 import axios from "axios";
 
@@ -72,11 +72,12 @@ const EmployeeEdit = () => {
     useEffect(() => {
         axiosSecure.get(`/empl/${empl_id}`)
             .then(res => {
+                console.log(res.data)
                 setEmpl(res.data)
                 reset(res.data)
             })
 
-    }, [empl_id, reset])
+    }, [empl_id])
 
     const handleEmplEdit = async (data) => {
         // let imageUrl = empl.employee_photo;
@@ -130,7 +131,7 @@ const EmployeeEdit = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    navigate("/dashboard/employees")
+                    navigate("/dashboard/module_hr/employees")
                 }
             })
     }
@@ -142,7 +143,7 @@ const EmployeeEdit = () => {
                 <h1 className="text-3xl font-bold">Employee Form</h1>
                 <div className="space-x-3.5 flex justify-center items-center">
                     <button type="submit" className="btn btn-info">Submit</button>
-                    <button type="button" className="btn btn-error">Cancel</button>
+                    <Link to="/dashboard/module_hr/employees"><button type="button" className="btn btn-error">Cancel</button></Link>
                 </div>
 
             </div>

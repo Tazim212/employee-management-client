@@ -141,7 +141,7 @@ const EmployeeForm = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    navigate("/dashboard/employees")
+                    navigate("/dashboard/module_hr/employees")
                 }
             })
     }
@@ -152,12 +152,12 @@ const EmployeeForm = () => {
                 <h1 className="text-xl font-bold">Employee Form</h1>
                 <div className="space-x-3.5">
                     <button type="submit" className="bg-green-600 py-1.5 px-2.5 rounded-lg text-white cursor-pointer">Submit</button>
-                    <Link to="/dashboard/employees"><button type="button" className="bg-red-600 py-1.5 px-2.5 rounded-lg text-white cursor-pointer">Cancel</button></Link>
+                    <Link to="/dashboard/module_hr/employees"><button type="button" className="bg-red-600 py-1.5 px-2.5 rounded-lg text-white cursor-pointer">Cancel</button></Link>
                 </div>
 
             </div>
 
-            <div className="flex justify-baseline items-center gap-5 mx-5 my-5">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-5 mx-5 my-5">
                 <button type="button" onClick={() => setStep(1)} className={step === 1 ? "btn btn-success active:bg-green-900": "btn"}>Employment (1)</button>
                 <button type="button" onClick={() => setStep(2)} className={step === 2 ? "btn btn-success active:bg-green-900": "btn"}>Personal Details (2)</button>
                 <button type="button" onClick={() => setStep(3)} className={step === 3 ? "btn btn-success active:bg-green-900": "btn"}>Educational Qualification (3)</button>
@@ -225,7 +225,7 @@ const EmployeeForm = () => {
                         <div className="flex flex-col gap-2">
                             <label className="label">Designation</label>
                             <select defaultValue="Select Designation" className="select select-ghost" {...register("employee_designation")}>
-                                <option disabled={true} className="">Select Designation</option>
+                                <option disabled={true}>Select Designation</option>
                                 <option>Chief Executive</option>
                                 <option>Deputy Executive</option>
                                 <option>Director</option>
