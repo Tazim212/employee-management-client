@@ -46,7 +46,7 @@ const PayrollForm = () => {
         axiosSecure.post("/empl_pay", addPayroll)
             .then(res => {
                 if (res.data.insertedId) {
-                    navigate('/dashboard/payroll')
+                    navigate('/dashboard/module_payroll/payroll')
                 }
             })
             .catch(err => {

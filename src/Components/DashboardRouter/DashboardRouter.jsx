@@ -37,6 +37,10 @@ const DashboardRouter = createBrowserRouter(
             path: "/dashboard",
             children: [
                 {
+                    index: true,
+                    Component: DashboardModule,
+                },
+                {
                     path: "/dashboard/module_admin",
                     Component: AdminSidebar,
                     children: [
@@ -46,10 +50,6 @@ const DashboardRouter = createBrowserRouter(
                         },
                         
                     ]
-                },
-                {
-                    index: true,
-                    Component: DashboardModule,
                 },
                 {
                     path: "/dashboard/module_hr",
@@ -94,7 +94,7 @@ const DashboardRouter = createBrowserRouter(
                     Component: PayrollSidebar,
                     children: [
                         {
-                            index: true,
+                            path: '/dashboard/module_payroll/payroll_dashboard',
                             Component: PayrollDashboard
                         },
                         {
