@@ -1,8 +1,8 @@
-const Attendance = () =>{
+const AttendanceDashboard = () =>{
     return (
         <div>
             Attendence
         </div>
     )
 }
-export default Attendance;
+export default AttendanceDashboard;

@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router"
 import Login from "../Login/Login"
 import Register from "../Register/Register"
 import Employees from "../../Pages/Employees"
-import Attendance from "../../Pages/Attendance"
 import Dashboard from "../../Pages/Dashboard"
 import EmployeeForm from "../EmployeeForm/EmployeeForm"
 import EmployeeProfile from "../../Pages/EmployeeProfile"
@@ -22,6 +21,11 @@ import PayrollSidebar from "../PayrollSidebar/PayrollSidebar"
 import PayrollDashboard from "../../Pages/PayrollDashboard"
 import AdminSidebar from "../AdminSidebar/AdminSidebar"
 import AdminDashboard from "../../Pages/AdminDashboard"
+import MonthlyPayroll from "../../Pages/MonthlyPayroll"
+import AttendenceSidebar from "../AttendenceSidebar/AttendenceSidebar"
+import AttendanceDashboard from "../../Pages/AttendanceDashboard"
+import Attendence from "../../Pages/Attendence"
+import AttendenceForm from "../AttendenceForm/AttendenceForm"
 
 const DashboardRouter = createBrowserRouter(
     [
@@ -48,7 +52,7 @@ const DashboardRouter = createBrowserRouter(
                             index: true,
                             Component: AdminDashboard
                         },
-                        
+
                     ]
                 },
                 {
@@ -94,7 +98,7 @@ const DashboardRouter = createBrowserRouter(
                     Component: PayrollSidebar,
                     children: [
                         {
-                            path: '/dashboard/module_payroll/payroll_dashboard',
+                            index: true,
                             Component: PayrollDashboard
                         },
                         {
@@ -105,6 +109,32 @@ const DashboardRouter = createBrowserRouter(
                             path: "/dashboard/module_payroll/payroll_form",
                             Component: PayrollForm
                         },
+                        {
+                            path: "/dashboard/module_payroll/monthly_pay",
+                            Component: MonthlyPayroll
+                        },
+                    ]
+                },
+                {
+                    path: "/dashboard/module_attendence",
+                    Component: AttendenceSidebar,
+                    children: [
+                        {
+                            index: true,
+                            Component: AttendanceDashboard
+                        },
+                        {
+                            path: "/dashboard/module_attendence/attendence",
+                            Component: Attendence
+                        },
+                        {
+                            path: "/dashboard/module_attendence/attendence_form",
+                            Component: AttendenceForm
+                        },
+                        // {
+                        //     path: "/dashboard/module_attendence/monthly_pay",
+                        //     Component: MonthlyPayroll
+                        // },
                     ]
                 }
             ]

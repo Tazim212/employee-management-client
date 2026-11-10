@@ -243,7 +243,7 @@ const EmployeeForm = () => {
                         <div className="flex flex-col gap-2">
                             <label className="label">Gender</label>
                             <select defaultValue="Select" className="select select-ghost" {...register("employee_gender")}>
-                                <option className="text-gray-50">Select</option>
+                                <option>Select</option>
                                 <option>Male</option>
                                 <option>Female</option>
                             </select>
@@ -275,7 +275,7 @@ const EmployeeForm = () => {
                         <div className="flex flex-col gap-2">
                             <label className="label">Status</label>
                             <select defaultValue="Select Status" className="select select-ghost" {...register("employee_status")}>
-                                <option disabled={true} className="text-gray-50">Select Status</option>
+                                <option>Select Status</option>
                                 <option>Active</option>
                                 <option>Inactive</option>
                             </select>

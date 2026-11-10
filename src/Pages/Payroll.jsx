@@ -100,15 +100,16 @@ const Payroll = () => {
             </div>
 
             <div className="overflow-x-auto mt-3">
-                <table className="table w-287.5 ms-7">
+                <table className="table w-280 mx-auto">
                     <thead>
                         <tr className="bg-gray-500 text-gray-100">
                             <th>#</th>
                             <th>Employee Name</th>
                             <th>Department</th>
+                            <th>Working Days</th>
                             <th>Base Salary</th>
-                            <th>Allowances</th>
-                            <th>Deductions</th>
+                            <th>Total Allowances</th>
+                            <th>Total Deductions</th>
                             <th>Net Pay</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -121,6 +122,7 @@ const Payroll = () => {
                                     <td>{i + 1}</td>
                                     <td>{payroll.employee_name}</td>
                                     <td>{payroll.employee_department}</td>
+                                    <td>0</td>
                                     <td className="text-amber-600">$ {payroll.basic_salary}</td>
                                     <td className="text-green-700">$ {payroll.home_allowance + payroll.tour_allowance + payroll.meal_allowance}</td>
                                     <td className="text-red-600">$ {payroll.income_tax + payroll.health_insurance}</td>
@@ -128,7 +130,7 @@ const Payroll = () => {
                                         $ {(payroll.basic_salary + payroll.home_allowance + payroll.tour_allowance + payroll.meal_allowance) - (payroll.income_tax + payroll.health_insurance)}
                                     </td>
                                     <td><div className="badge badge-accent text-black">{payroll.status ? payroll.status : "null"}</div></td>
-                                    <td className="space-x-2">
+                                    <td className="space-x-2 flex">
                                         <Link to={`/dashboard/payroll_edit/${payroll._id}`}><button className="btn btn-outline btn-success" title="Edit"><FaEdit></FaEdit></button></Link>
                                         <button onClick={() => handleOpenModal(payroll._id)} className="btn btn-primary">Payslip</button>
                                     </td>

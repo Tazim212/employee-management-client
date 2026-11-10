@@ -48,7 +48,7 @@ const PayrollSidebar = () => {
                     <div className="flex min-h-full flex-col items-start bg-gray-300 is-drawer-close:w-14 is-drawer-open:w-64">
                         <ul className="menu w-full grow">
                             <li>
-                                <Link to="/dashboard/module_payroll/payroll_dashboard" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payroll Dashoboard">
+                                <Link to="/dashboard/module_payroll" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payroll Dashoboard">
                                     <span><HiMiniSquaresPlus /></span>
                                     <span className="is-drawer-close:hidden">Payroll Dashoboard</span>
                                 </Link>
