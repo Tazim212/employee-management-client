@@ -17,6 +17,23 @@ const Attendence = () => {
         }
     })
 
+    const toMinutes = (time) => {
+        if (!time) return null;
+        const [h, m] = time.split(":").map(Number);
+        return h * 60 + m;
+    };
+
+    const getWorkingHours = (checkIn, checkOut) => {
+        const inMin = toMinutes(checkIn);
+        const outMin = toMinutes(checkOut);
+
+        if (inMin === null || outMin === null) return "- -"; // check out na korle
+        let worked = inMin - outMin;
+
+        const hours = Math.floor(worked / 60);
+        const mins = worked % 60;
+        return `${hours}h ${mins}m`;
+    };
     return (
         <div>
             <div className="flex justify-between items-center my-2 mx-6 bg-gray-200 p-2 rounded-2xl">
@@ -61,8 +78,8 @@ const Attendence = () => {
                 </div>
             </div>
 
-            <div className="flex justify-around items-center">
-                <h2>Employee Attendence</h2>
+            <div className="flex justify-between items-center mx-0 md:mx-12">
+                <h2 className="font-bold text-xl">Employee Attendence</h2>
                 <div className="space-x-5 flex">
                     <input type="text" placeholder="Type here" className="input w-60" />
                     <div>
@@ -77,7 +94,7 @@ const Attendence = () => {
                 </div>
             </div>
 
-            <div className="overflow-x-auto mt-3">
+            <div className="overflow-x-auto my-6">
                 <table className="table w-280 mx-auto">
                     <thead>
                         <tr className="bg-gray-500 text-gray-100">
@@ -100,9 +117,9 @@ const Attendence = () => {
                                     <td>{att.shift}</td>
                                     <td>{att.check_in}</td>
                                     <td>{att.check_out}</td>
-                                    <td>{att.check_out - att.check_in}</td>
+                                    <td>{getWorkingHours(att.check_out, att.check_in)}</td>
                                     <td>
-                                        <div className="badge badge-neutral">{att.status}</div>
+                                        <div className="badge badge-soft badge-primary">{att.status}</div>
                                     </td>
                                     <td className="space-x-2 flex">
                                         <Link><button className="btn btn-outline btn-success" title="Correct">Correct</button></Link>

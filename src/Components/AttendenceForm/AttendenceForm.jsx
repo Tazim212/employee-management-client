@@ -8,7 +8,7 @@ import Swal from "sweetalert2"
 
 const AttendenceForm = () => {
     const axiosSecure = useAxiosSecure()
-    const { handleSubmit, register } = useForm()
+    const { handleSubmit, register, formState: { errors } } = useForm()
     const [attendences, setAttendences] = useState([])
     const [selectedDate, setSelectedDate] = useState(new Date())
     const navigate = useNavigate()
@@ -33,7 +33,7 @@ const AttendenceForm = () => {
         }
         axiosSecure.post("/daily_attend", attend)
             .then(res => {
-                if (res.insertedId) {
+                if (res.data.insertedId) {
                     Swal.fire("Attendent Added Successfully")
                     navigate("/dashboard/module_attendence/attendence")
                 }
@@ -58,7 +58,7 @@ const AttendenceForm = () => {
                                     pattern: {
                                         value: /^\d{5}$/,
                                         message: "ID must be exactly 5 digits",
-                                    },
+                                    }
                                 })}
                             />
                             {errors?.employee_id && <span className="text-red-600 text-md">ID must be 5 digits</span>}

@@ -26,6 +26,8 @@ import AttendenceSidebar from "../AttendenceSidebar/AttendenceSidebar"
 import AttendanceDashboard from "../../Pages/AttendanceDashboard"
 import Attendence from "../../Pages/Attendence"
 import AttendenceForm from "../AttendenceForm/AttendenceForm"
+import MonthlyAttendence from "../../Pages/MonthlyAttendence"
+import Overtime from "../../Pages/Overtime"
 
 const DashboardRouter = createBrowserRouter(
     [
@@ -131,10 +133,14 @@ const DashboardRouter = createBrowserRouter(
                             path: "/dashboard/module_attendence/attendence_form",
                             Component: AttendenceForm
                         },
-                        // {
-                        //     path: "/dashboard/module_attendence/monthly_pay",
-                        //     Component: MonthlyPayroll
-                        // },
+                        {
+                            path: "/dashboard/module_attendence/monthly_attend",
+                            Component: MonthlyAttendence
+                        },
+                        {
+                            path: "/dashboard/module_attendence/overtime_manage",
+                            Component: Overtime
+                        },
                     ]
                 }
             ]
