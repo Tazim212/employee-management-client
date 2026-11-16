@@ -78,23 +78,23 @@ const Attendence = () => {
                 </div>
             </div>
 
-            <div className="flex justify-between items-center mx-0 md:mx-12">
-                <h2 className="font-bold text-xl">Employee Attendence</h2>
-                <div className="space-x-5 flex">
-                    <input type="text" placeholder="Type here" className="input w-60" />
-                    <div>
-                        <DatePicker showIcon selected={selectedDate} onChange={setSelectedDate} className="border-2 w-40 rounded-4xl" />
-                    </div>
-                    <select defaultValue="Pick a color" className="select w-40">
-                        <option>Present</option>
-                        <option>Absent</option>
-                        <option>Late</option>
-                        <option>On Leave</option>
-                    </select>
-                </div>
-            </div>
 
-            <div className="overflow-x-auto my-6">
+            <div className="overflow-x-auto space-y-5 bg-gray-100 py-5 m-6 rounded-3xl">
+                <div className="flex justify-between items-center mx-0 md:mx-10">
+                    <h2 className="font-bold text-xl">Employee Attendence</h2>
+                    <div className="space-x-5 flex">
+                        <input type="text" placeholder="Type here" className="input w-60" />
+                        <div>
+                            <DatePicker showIcon selected={selectedDate} onChange={setSelectedDate} className="border-2 w-40 rounded-4xl" />
+                        </div>
+                        <select defaultValue="Pick a color" className="select w-40">
+                            <option>Present</option>
+                            <option>Absent</option>
+                            <option>Late</option>
+                            <option>On Leave</option>
+                        </select>
+                    </div>
+                </div>
                 <table className="table w-280 mx-auto">
                     <thead>
                         <tr className="bg-gray-500 text-gray-100">

@@ -1,12 +1,13 @@
 import { Link, Outlet, useNavigate } from "react-router"
 import useAuth from "../../Hooks/useAuth"
 import Footer from "../Footer/Footer"
-import { HiMiniSquaresPlus } from "react-icons/hi2"
-import { FaWallet } from "react-icons/fa"
-import { TbSchoolBell } from "react-icons/tb"
-import { LuCalendarDays } from "react-icons/lu"
-import { IoMdGift } from "react-icons/io"
-import { IoStatsChartSharp } from "react-icons/io5"
+import { HiArrowPathRoundedSquare, HiMiniSquaresPlus } from "react-icons/hi2"
+import { FaRegClock, FaWallet } from "react-icons/fa"
+import { IoCalendarOutline, IoStatsChartSharp } from "react-icons/io5"
+import { CiReceipt } from "react-icons/ci"
+import { FaCalendarDays } from "react-icons/fa6"
+import { GrBarChart } from "react-icons/gr"
+import { BiLeaf } from "react-icons/bi"
 
 const AttendenceSidebar = () => {
      const { handleSignOut } = useAuth()
@@ -51,45 +52,45 @@ const AttendenceSidebar = () => {
                             </li>
                             <li>
                                 <Link to="/dashboard/module_attendence/attendence" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Daily Attendence">
-                                    <span><FaWallet /></span>
+                                    <span><IoCalendarOutline /></span>
                                     <span className="is-drawer-close:hidden">Daily Attendence</span>
                                 </Link>
                             </li>
 
                             <li>
                                 <Link to="/dashboard/module_attendence/attend_record" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Attendence Records">
-                                    <span><TbSchoolBell /></span>
+                                    <span><CiReceipt /></span>
                                     <span className="is-drawer-close:hidden">Attendence Records</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/dashboard/module_attendence/monthly_attend" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Monthly Attendence">
-                                    <span><LuCalendarDays /></span>
+                                    <span><FaCalendarDays /></span>
                                     <span className="is-drawer-close:hidden">Monthly Attendence</span>
                                 </Link>
                             </li>
 
                             <li>
                                 <Link to="/dashboard/module_attendence/overtime_manage" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Overtime management">
-                                    <span><IoStatsChartSharp /></span>
+                                    <span><FaRegClock /></span>
                                     <span className="is-drawer-close:hidden">Overtime Management</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/dashboard/module_attendence/leave_manage" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Leave Management">
-                                    <span><IoStatsChartSharp /></span>
+                                    <span><BiLeaf /></span>
                                     <span className="is-drawer-close:hidden">Leave Management</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/dashboard/module_attendence/att_correction" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Attendence Correction">
-                                    <span><IoStatsChartSharp /></span>
+                                    <span><HiArrowPathRoundedSquare /></span>
                                     <span className="is-drawer-close:hidden">Attendence Correction</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/dashboard/module_attendence/att_report" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Attendence Reports">
-                                    <span><IoStatsChartSharp /></span>
+                                    <span><GrBarChart /></span>
                                     <span className="is-drawer-close:hidden">Attendence Report</span>
                                 </Link>
                             </li>

@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { TbCoinTaka } from "react-icons/tb";
+import { FaRegClock, FaUsers } from "react-icons/fa";
+import { GrBarChart } from "react-icons/gr";
 
 const Overtime = () => {
     const { handleSubmit, register, reset } = useForm()
@@ -55,6 +57,15 @@ const Overtime = () => {
             return res.data
         }
     })
+
+    const { data: overtimeStat = [] } = useQuery({
+        queryKey: ['overtime_stat'],
+        queryFn: async () => {
+            const res = await axiosSecure.get("/overtime_stat")
+            return res.data
+        }
+    })
+    console.log(overtimeStat)
     return (
         <div>
             <div className="flex justify-between items-center my-2 mx-6 bg-gray-200 p-2 rounded-2xl">
@@ -69,29 +80,29 @@ const Overtime = () => {
             <div className="space-x-4 mx-6 my-5">
                 <div className="stats shadow">
                     <div className="stat">
-                        <div className="stat-title">Total Page Views</div>
-                        <div className="stat-value">89,400</div>
+                        <div className="text-md flex items-center gap-2">Total Extra Hours <span className="p-3 bg-purple-100 rounded-xl"><FaRegClock /></span></div>
+                        <div className="stat-value">{overtimeStat[0]?.total}h</div>
                         <div className="stat-desc">21% more than last month</div>
                     </div>
                 </div>
                 <div className="stats shadow">
                     <div className="stat">
-                        <div className="stat-title">Total Page Views</div>
-                        <div className="stat-value">89,400</div>
+                        <div className="text-md flex items-center gap-2">Overtime Total Payment <span className="p-3 bg-green-100 rounded-xl"><GrBarChart /></span></div>
+                        <div className="stat-value flex items-center"><span><TbCoinTaka></TbCoinTaka></span> {overtimeStat[0]?.totalPay}</div>
                         <div className="stat-desc">21% more than last month</div>
                     </div>
                 </div>
                 <div className="stats shadow">
                     <div className="stat">
-                        <div className="stat-title">Total Page Views</div>
-                        <div className="stat-value">89,400</div>
+                        <div className="text-md flex items-center gap-2">Pending Approval <span className="p-3 bg-amber-100 rounded-xl"><FaRegClock /></span></div>
+                        <div className="stat-value">{overtimeStat[0]?.pendingCount}</div>
                         <div className="stat-desc">21% more than last month</div>
                     </div>
                 </div>
                 <div className="stats shadow">
                     <div className="stat">
-                        <div className="stat-title">Total Page Views</div>
-                        <div className="stat-value">89,400</div>
+                        <div className="text-md flex items-center gap-2">Total Employees <span className="p-3 bg-sky-100 rounded-xl"><FaUsers></FaUsers></span></div>
+                        <div className="stat-value">{overtimeStat[0]?.totalEmpl}</div>
                         <div className="stat-desc">21% more than last month</div>
                     </div>
                 </div>
@@ -109,7 +120,7 @@ const Overtime = () => {
                 <table className="table w-280 mx-auto">
                     <thead>
                         <tr className="bg-gray-500 text-gray-100">
-                            <th>#</th>
+                            <th>Employee ID</th>
                             <th>Employee Name</th>
                             <th>Date</th>
                             <th>Extra Hours</th>
@@ -121,14 +132,29 @@ const Overtime = () => {
                     </thead>
                     <tbody>
                         {
-                            overtimes.map((ovt, i) =>
-                                <tr>
-                                    <td>{i + 1}</td>
-                                    <td>{ovt.employee_name}</td>
+                            overtimes.map((ovt) =>
+                                <tr key={ovt._id}>
+                                    <td>{ovt.employee_details?.employee_id}</td>
+                                    <td>
+                                        <div>
+                                            <h2 className="font-semibold">{ovt.employee_name}</h2>
+                                            <p>{ovt.employee_details?.employee_designation}</p>
+                                        </div>
+                                    </td>
                                     <td>{ovt.effective_date}</td>
                                     <td>{ovt.extra_hours} hr</td>
-                                    <td className="flex gap-2 items-center pt-5"><span><TbCoinTaka></TbCoinTaka></span> {ovt.hourly_rate}/hr</td>
-                                    <td>200</td>
+                                    <td>
+                                        <div className="flex gap-1 items-center">
+                                            <span><TbCoinTaka></TbCoinTaka></span>
+                                            <p>{ovt.hourly_rate}/hr</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="flex gap-1 items-center">
+                                            <span><TbCoinTaka></TbCoinTaka></span>
+                                            <p>{ovt.extra_hours * ovt.hourly_rate}</p>
+                                        </div>
+                                    </td>
                                     <td>{ovt.status}</td>
                                     <td>
                                         <button className="btn btn-soft btn-success">Review</button>
@@ -184,7 +210,7 @@ const Overtime = () => {
                                 <label className="label">Status</label>
                                 <select className="select select-ghost" {...register("status")}>
                                     <option value="Select Employee">Select</option>
-                                    <option value="approve">Approved</option>
+                                    <option value="approved">Approved</option>
                                     <option value="pending">Pending</option>
                                 </select>
                             </div>
