@@ -72,7 +72,6 @@ const EmployeeEdit = () => {
     useEffect(() => {
         axiosSecure.get(`/empl/${empl_id}`)
             .then(res => {
-                console.log(res.data)
                 setEmpl(res.data)
                 reset(res.data)
             })
@@ -122,7 +121,6 @@ const EmployeeEdit = () => {
 
         axiosSecure.patch(`/empl/${empl_id}`, updateEmpl)
             .then(res => {
-                console.log(res.data)
                 if (res.data.modifiedCount) {
                     Swal.fire({
                         position: "top-end",
