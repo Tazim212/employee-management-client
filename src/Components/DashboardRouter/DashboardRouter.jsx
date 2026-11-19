@@ -29,6 +29,7 @@ import AttendenceForm from "../AttendenceForm/AttendenceForm"
 import MonthlyAttendence from "../../Pages/MonthlyAttendence"
 import Overtime from "../../Pages/Overtime"
 import LeaveManage from "../../Pages/LeaveManage"
+import LeaveForm from "../LeaveForm/LeaveForm"
 
 const DashboardRouter = createBrowserRouter(
     [
@@ -145,6 +146,10 @@ const DashboardRouter = createBrowserRouter(
                         {
                             path: "/dashboard/module_attendence/leave_manage",
                             Component: LeaveManage
+                        },
+                        {
+                            path: "/dashboard/module_attendence/leave_form",
+                            Component: LeaveForm
                         },
                     ]
                 }
