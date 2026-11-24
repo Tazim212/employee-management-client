@@ -30,6 +30,8 @@ import MonthlyAttendence from "../../Pages/MonthlyAttendence"
 import Overtime from "../../Pages/Overtime"
 import LeaveManage from "../../Pages/LeaveManage"
 import LeaveForm from "../LeaveForm/LeaveForm"
+import AttendenceEditForm from "../AttendenceEditForm/AttendenceEditForm"
+import AttendenceCorrect from "../../Pages/AttendenceCorrect"
 
 const DashboardRouter = createBrowserRouter(
     [
@@ -136,6 +138,10 @@ const DashboardRouter = createBrowserRouter(
                             Component: AttendenceForm
                         },
                         {
+                            path: "/dashboard/module_attendence/attendence_edit/:id",
+                            Component: AttendenceEditForm
+                        },
+                        {
                             path: "/dashboard/module_attendence/monthly_attend",
                             Component: MonthlyAttendence
                         },
@@ -150,6 +156,10 @@ const DashboardRouter = createBrowserRouter(
                         {
                             path: "/dashboard/module_attendence/leave_form",
                             Component: LeaveForm
+                        },
+                        {
+                            path: "/dashboard/module_attendence/att_correct",
+                            Component: AttendenceCorrect
                         },
                     ]
                 }

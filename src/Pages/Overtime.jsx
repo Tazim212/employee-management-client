@@ -321,11 +321,11 @@ const Overtime = () => {
 
                             <div className="flex flex-col gap-2">
                                 <label className="label text-gray-100">Extra Hours</label>
-                                <input type="number" placeholder="3,3.5" className="input" {...editreg("extra_hours")} readOnly/>
+                                <input type="number" placeholder="3,3.5" className="input" {...editreg("extra_hours")} readOnly />
                             </div>
                             <div className="flex flex-col gap-2">
                                 <label className="label text-gray-100">Hourly Rate</label>
-                                <input type="number" placeholder="rate" className="input" {...editreg("hourly_rate")} readOnly/>
+                                <input type="number" placeholder="rate" className="input" {...editreg("hourly_rate")} readOnly />
                             </div>
                             <div className="flex flex-col gap-2">
                                 <label className="label text-gray-100">Status</label>

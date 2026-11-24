@@ -17,6 +17,7 @@ const Attendence = () => {
         }
     })
 
+
     const toMinutes = (time) => {
         if (!time) return null;
         const [h, m] = time.split(":").map(Number);
@@ -34,6 +35,7 @@ const Attendence = () => {
         const mins = worked % 60;
         return `${hours}h ${mins}m`;
     };
+
     return (
         <div>
             <div className="flex justify-between items-center my-2 mx-6 bg-gray-200 p-2 rounded-2xl">
@@ -122,7 +124,7 @@ const Attendence = () => {
                                         <div className="badge badge-soft badge-primary">{att.status}</div>
                                     </td>
                                     <td className="space-x-2 flex">
-                                        <Link><button className="btn btn-outline btn-success" title="Correct">Correct</button></Link>
+                                        <Link to={`/dashboard/module_attendence/attendence_edit/${att.employee_id}`}><button className="btn btn-outline btn-success" title="Correct">Correct</button></Link>
                                     </td>
                                 </tr>
                             )
