@@ -5,6 +5,7 @@ import { useState } from "react";
 const MonthlyAttendence = () => {
     const axiosSecure = useAxiosSecure()
     const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
+    const [search, setSearch] = useState("");
 
     const { data: employees = [] } = useQuery({
         queryKey: ["employees"],
@@ -15,13 +16,18 @@ const MonthlyAttendence = () => {
     })
     const employee = employees.result || []
 
-    const { data: monthlyRepo = [] } = useQuery({
+    const { data: monthlyRepo = [], isLoading } = useQuery({
         queryKey: ["monthly_att", month],
         queryFn: async () => {
             const res = await axiosSecure.get(`/monthly_report?month=${month}`)
             return res.data
         }
     })
+    const filteredRepo = monthlyRepo.filter(repo =>
+        repo.employee_name?.toLowerCase().includes(search.toLowerCase()) ||
+        repo.employee_id?.toString().toLowerCase().includes(search.toLowerCase())
+    );
+
     return (
         <div>
             <div className="space-x-4 mx-6 my-5">
@@ -59,7 +65,13 @@ const MonthlyAttendence = () => {
                     <h2 className="text-xl font-bold">Monthly Attendence</h2>
                     <p>Total working days, present and absent</p>
                 </div>
-                <input type="text" placeholder="Type here" className="input w-60" />
+                <input
+                    type="text"
+                    placeholder="Type here"
+                    className="input w-60"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
             </div>
 
             <div className="overflow-x-auto my-6">
@@ -79,8 +91,14 @@ const MonthlyAttendence = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            monthlyRepo.map((repo, i) =>
+                        {isLoading ? (
+                            <tr>
+                                <td colSpan="9" className="text-center py-8">
+                                    Loading attendance records...
+                                </td>
+                            </tr>
+                        ) : filteredRepo.length > 0 ? (
+                            filteredRepo.map((repo) => (
                                 <tr key={repo.employee_id}>
                                     <td>{repo.employee_id}</td>
                                     <td>{repo.employee_name}</td>
@@ -90,12 +108,23 @@ const MonthlyAttendence = () => {
                                     <td className="text-amber-600">{repo.late}</td>
                                     <td className="text-fuchsia-600">{repo.leave}</td>
                                     <td>{repo.totalHours}</td>
-                                    <td className="space-x-2 flex">
-                                        <button className="btn btn-outline btn-success" title="Correct">Correct</button>
+                                    <td>
+                                        <button
+                                            className="btn btn-outline btn-success"
+                                            title="Correct"
+                                        >
+                                            Correct
+                                        </button>
                                     </td>
                                 </tr>
-                            )
-                        }
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="9" className="text-center py-8">
+                                    No attendance records found.
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>
