@@ -20,6 +20,7 @@ const AttendenceForm = () => {
             return res.data
         }
     })
+    const employee = employees.result || []
 
     const handleEmpAttend = data => {
         const attend = {
@@ -34,7 +35,13 @@ const AttendenceForm = () => {
         axiosSecure.post("/daily_attend", attend)
             .then(res => {
                 if (res.data.insertedId) {
-                    Swal.fire("Attendent Added Successfully")
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: `Attendence Added Successfully`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                     navigate("/dashboard/module_attendence/attendence")
                 }
             })
@@ -69,7 +76,7 @@ const AttendenceForm = () => {
                             <select className="select" {...register("employee_name")}>
                                 <option value="Select Employee">Select Employee</option>
                                 {
-                                    employees?.map(empl => <option key={empl._id}>{empl.employee_name}</option>)
+                                    employee?.map(empl => <option key={empl._id}>{empl.employee_name}</option>)
                                 }
                             </select>
                         </div>

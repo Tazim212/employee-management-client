@@ -5,18 +5,23 @@ import { Link, useNavigate, useParams } from "react-router";
 import { FaEye, FaTrash } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import Swal from "sweetalert2";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { useState } from "react";
 
 const Employees = () => {
     const axiosSecure = useAxiosSecure()
     const navigate = useNavigate()
+    const [page, setPage] = useState(1)
 
     const { data: employees = [], refetch } = useQuery({
-        queryKey: ["employees"],
+        queryKey: ["employees", page],
         queryFn: async () => {
-            const res = await axiosSecure.get("/employees")
+            const res = await axiosSecure.get(`/employees?&page=${page}&limit=7`)
             return res.data
         }
     })
+    const employee = employees.result || []
+    const TotalPages = employees.TotalPages || 1
 
     const handleDeleteEmpl = empl_id => {
 
@@ -46,20 +51,20 @@ const Employees = () => {
 
         );
 
-        }
-         const handleEdit = (empl_id) => {
-            Swal.fire({
-                title: `Do you want to edit ID: ${empl_id}?`,
-                icon: "question",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, Edit"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    navigate(`/dashboard/module_hr/empl/${empl_id}`)
-                }
-            });
+    }
+    const handleEdit = (empl_id) => {
+        Swal.fire({
+            title: `Do you want to edit ID: ${empl_id}?`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Edit"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                navigate(`/dashboard/module_hr/empl/${empl_id}`)
+            }
+        });
     }
 
     return (
@@ -87,7 +92,7 @@ const Employees = () => {
                     </thead>
                     <tbody>
                         {
-                            employees.map((emp) =>
+                            employee.map((emp) =>
                                 <tr key={emp.employee_id}>
                                     <th>{emp.employee_id}</th>
                                     <td>{emp.employee_name}</td>
@@ -97,7 +102,7 @@ const Employees = () => {
                                     <td className="flex gap-2">
 
                                         <Link to={`/dashboard/module_hr/empl_prof/${emp.employee_id}`}><span><FaEye></FaEye></span></Link>
-                                        <button onClick={() =>handleEdit(emp.employee_id)} className="cursor-pointer text-green-700"><FiEdit></FiEdit></button>
+                                        <button onClick={() => handleEdit(emp.employee_id)} className="cursor-pointer text-green-700"><FiEdit></FiEdit></button>
                                         <span onClick={() => handleDeleteEmpl(emp.employee_id)} className="cursor-pointer text-red-600"><FaTrash></FaTrash></span>
                                     </td>
                                 </tr>
@@ -105,6 +110,39 @@ const Employees = () => {
                         }
                     </tbody>
                 </table>
+            </div>
+            <div className="flex gap-2 justify-center mt-4">
+                <button onClick={() => setPage(1)} className="btn">
+                    <IoIosArrowBack />
+                </button>
+                <button
+                    className="btn"
+                    onClick={() => setPage((p) => p - 1)}
+                    disabled={page === 1}
+                >
+                    Prev
+                </button>
+
+                {[...Array(TotalPages).keys()].map((n) => (
+                    <button
+                        key={n}
+                        className={`btn ${page === n + 1 ? "btn-primary" : ""}`}
+                        onClick={() => setPage(n + 1)}
+                    >
+                        {n + 1}
+                    </button>
+                ))}
+
+                <button
+                    className="btn"
+                    onClick={() => setPage((p) => p + 1)}
+                    disabled={page === TotalPages}
+                >
+                    Next
+                </button>
+                <button onClick={() => setPage(TotalPages)} className="btn">
+                    <IoIosArrowForward />
+                </button>
             </div>
         </div>
     )

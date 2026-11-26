@@ -52,7 +52,6 @@ const Payroll = () => {
     const totalPaySum = payDetails.meal_allowance + payDetails.basic_salary + payDetails.home_allowance + payDetails.tour_allowance
 
     const totalDeduction = payDetails.health_insurance + payDetails.income_tax
-    console.log(stat)
 
     return (
         <div>

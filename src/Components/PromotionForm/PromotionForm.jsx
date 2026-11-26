@@ -19,6 +19,8 @@ const PromotionForm = () => {
         }
     })
 
+    const employee = employees.result || []
+
     const handleEmplPromotion = (data) => {
         const emplPromotion = {
             employee_id: data.employee_id,
@@ -55,7 +57,6 @@ const PromotionForm = () => {
         })
     }
 
-    console.log(pay)
     return (
         <div>
             <form onSubmit={handleSubmit(handleEmplPromotion)} >
@@ -86,7 +87,7 @@ const PromotionForm = () => {
                             <select className="select select-ghost" {...register("employee_name")}>
                                 <option value="Select Employee">Select Employee</option>
                                 {
-                                    employees?.map(empl => <option onClick={() => handleInfo(empl._id)} key={empl._id}>{empl.employee_name}</option>)
+                                    employee?.map(empl => <option onClick={() => handleInfo(empl._id)} key={empl._id}>{empl.employee_name}</option>)
                                 }
                             </select>
                         </div>

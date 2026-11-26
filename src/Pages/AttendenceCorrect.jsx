@@ -46,8 +46,8 @@ const AttendenceCorrect = () => {
         if (!time) return "--";
         const [h, m] = time.split(":");
         const hour = Number(h);
-        const ampm = hour >= 12 ? "PM" : "AM";
-        return `${hour % 12 || 12}:${m} ${ampm}`;
+        // const ampm = hour >= 12 ? "PM" : "AM";
+        return `${hour % 12 || 12}:${m}`;
     };
 
     return (

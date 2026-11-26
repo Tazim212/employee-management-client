@@ -36,6 +36,14 @@ const Attendence = () => {
         return `${hours}h ${mins}m`;
     };
 
+    const to12Hour = (time) => {
+        if (!time) return "--";
+        const [h, m] = time.split(":");
+        const hour = Number(h);
+        // const ampm = hour >= 12 ? "PM" : "AM";
+        return `${hour % 12 || 12}:${m}`;
+    };
+
     return (
         <div>
             <div className="flex justify-between items-center my-2 mx-6 bg-gray-200 p-2 rounded-2xl">
@@ -118,7 +126,7 @@ const Attendence = () => {
                                     <td>{att.employee_id}-{att.employee_name}</td>
                                     <td>{att.shift}</td>
                                     <td>{att.check_in}</td>
-                                    <td>{att.check_out}</td>
+                                    <td>{to12Hour(att.check_out)}</td>
                                     <td>{getWorkingHours(att.check_out, att.check_in)}</td>
                                     <td>
                                         <div className="badge badge-soft badge-primary">{att.status}</div>

@@ -18,13 +18,14 @@ const PayrollDashboard = ({ isAnimationActive = true }) => {
     const [employees, setEmployees] = useState([])
     const [stat, setStat] = useState([])
 
-    const { data: deptPayroll = [] } = useQuery({
+    const { data: deptPayroll = [], isLoading } = useQuery({
         queryKey: ['dept_payroll'],
         queryFn: async () => {
             const res = await axiosSecure.get("/dept_payroll")
             return res.data;
         }
     })
+    const employee = employees.result || []
 
     const renderCustomizedLabel = ({
         cx,
@@ -108,7 +109,6 @@ const PayrollDashboard = ({ isAnimationActive = true }) => {
         },
     ];
 
-    console.log(deptPayroll)
 
     useEffect(() => {
         axiosSecure.get('/employees')
@@ -117,7 +117,7 @@ const PayrollDashboard = ({ isAnimationActive = true }) => {
             })
     }, [])
 
-    const deptCount = employees.reduce((acc, e) => {
+    const deptCount = employee.reduce((acc, e) => {
         const dept = e.employee_department;
         acc[dept] = (acc[dept] || 0) + 1;
         return acc;
@@ -137,13 +137,16 @@ const PayrollDashboard = ({ isAnimationActive = true }) => {
             })
     }, [])
 
+    if (isLoading) {
+        return <h2 className="text-center text-xl pt-20">Loadingg.......</h2>
+    }
     return (
         <div>
             <div className="my-3 space-x-9">
                 <div className="stats shadow">
                     <div className="stat">
                         <div className="stat-title text-xl font-bold">Total Employees</div>
-                        <div className="stat-value font-bold flex items-center gap-1">{employees.length}</div>
+                        <div className="stat-value font-bold flex items-center gap-1">{employee.length}</div>
                         <progress className="progress w-56" value="70" max="100"></progress>
                     </div>
                 </div>
@@ -161,7 +164,7 @@ const PayrollDashboard = ({ isAnimationActive = true }) => {
                     <div className="stat">
                         <div className="stat-title text-xl font-bold">Employee Paid</div>
                         <div className="stat-value">{stat[0]?.paid?.length}</div>
-                        <div className="stat-desc pb-1 text-black">of total {employees.length} employees</div>
+                        <div className="stat-desc pb-1 text-black">of total {employee.length} employees</div>
                         <progress className="progress w-56" value="70" max="100"></progress>
                     </div>
                 </div>

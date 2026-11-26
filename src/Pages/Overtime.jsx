@@ -27,6 +27,7 @@ const Overtime = () => {
             return res.data
         }
     })
+    const employee = employees.result || []
 
     // overtime stat query 
     const { data: overtimeStat = [] } = useQuery({
@@ -237,7 +238,7 @@ const Overtime = () => {
                                 <select className="select" {...register("employee_name")}>
                                     <option value="Select Employee">Select Employee</option>
                                     {
-                                        employees?.map(empl => <option key={empl._id}>{empl.employee_name}</option>)
+                                        employee?.map(empl => <option key={empl._id}>{empl.employee_name}</option>)
                                     }
                                 </select>
                             </div>

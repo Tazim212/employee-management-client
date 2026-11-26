@@ -66,7 +66,7 @@ const AttendenceSidebar = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/dashboard/module_attendence/attend_record" className="lg:is-drawer-close:tooltip lg:is-drawer-close:tooltip-right" data-tip="Attendance Records">
+                                <Link to="/dashboard/module_attendence/att_record" className="lg:is-drawer-close:tooltip lg:is-drawer-close:tooltip-right" data-tip="Attendance Records">
                                     <span className="text-lg"><CiReceipt /></span>
                                     <span className="lg:is-drawer-close:hidden whitespace-nowrap">Attendance Records</span>
                                 </Link>

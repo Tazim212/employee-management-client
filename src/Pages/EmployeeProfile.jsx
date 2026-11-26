@@ -13,7 +13,7 @@ const EmployeeProfile = () => {
     const { empl_id } = useParams()
     const axiosSecure = useAxiosSecure()
     const [profile, setProfile] = useState([])
-    
+
     useEffect(() => {
         axiosSecure.get(`/empl/${empl_id}`)
             .then(res => {
@@ -31,7 +31,7 @@ const EmployeeProfile = () => {
                 height: "200px",
                 objectFit: "cover",
             }}>
-                <img src={profile.employee_photo} alt="" className="rounded-full w-30 h-35 object-cover relative top-30 left-3.5" />
+                <img src={profile.employee_photo} alt="" className="rounded-full w-34 h-35 object-cover relative top-30 left-3.5" />
             </div>
 
             <div className="mt-20 flex gap-5">
@@ -77,96 +77,97 @@ const EmployeeProfile = () => {
 
                 <TabPanel>
                     {/* Employment Details  */}
-                    <div className="bg-gray-200 p-3">
-                        <h1 className="text-lg font-bold pb-3 flex items-center gap-2"><span><IoPersonSharp /></span>Employment Details</h1>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <h2 className="font-semibold">Name</h2>
-                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_name}</p>
-                            </div>
-                            <div>
-                                <h2 className="font-semibold">Department</h2>
-                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_department}</p>
-                            </div>
-                            <div>
-                                <h2 className="font-semibold">Designation</h2>
-                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_designation}</p>
-                            </div>
+                    <div>
+                        <div className="bg-gray-200 p-3">
+                            <h1 className="text-lg font-bold pb-3 flex items-center gap-2"><span><IoPersonSharp /></span>Employment Details</h1>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <h2 className="font-semibold">Name</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_name}</p>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold">Department</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_department}</p>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold">Designation</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_designation}</p>
+                                </div>
 
+                            </div>
+                        </div>
+                        <div className="bg-gray-200 p-3">
+                            <h1 className="text-lg font-bold pb-3 flex items-center gap-2"><span><TbListDetails /></span>Contact Information</h1>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <h2 className="font-semibold">Employee Email</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_email}</p>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold">Phone Number</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_phone}</p>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold">Gender</h2>
+                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_gender}</p>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
 
                 </TabPanel>
 
                 <TabPanel>
-                    {/* contact  */}
-                    <div className="bg-gray-200 p-3">
-                        <h1 className="text-lg font-bold pb-3 flex items-center gap-2"><span><TbListDetails /></span>Contact Information</h1>
+                    {/* permanent address  */}
+
+                    <div>
+                        <h1 className="text-lg font-bold pb-3 mt-10">Permanent Address</h1>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <h2 className="font-semibold">Employee Email</h2>
-                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_email}</p>
+                                <h2 className="font-semibold">Village</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_village}</p>
                             </div>
                             <div>
-                                <h2 className="font-semibold">Phone Number</h2>
-                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_phone}</p>
+                                <h2 className="font-semibold">Division</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_division}</p>
                             </div>
                             <div>
-                                <h2 className="font-semibold">Gender</h2>
-                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.employee_gender}</p>
+                                <h2 className="font-semibold">District</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_district}</p>
                             </div>
-
+                            <div>
+                                <h2 className="font-semibold">Upazila</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_upazila}</p>
+                            </div>
+                            <div>
+                                <h2 className="font-semibold">Post Office</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_post_office}</p>
+                            </div>
                         </div>
-                        {/* permanent address  */}
+                        {/* present address  */}
 
-                        <div>
-                            <h1 className="text-lg font-bold pb-3 mt-10">Permanent Address</h1>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div>
-                                    <h2 className="font-semibold">Village</h2>
-                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_village}</p>
-                                </div>
-                                <div>
-                                    <h2 className="font-semibold">Division</h2>
-                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_division}</p>
-                                </div>
-                                <div>
-                                    <h2 className="font-semibold">District</h2>
-                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_district}</p>
-                                </div>
-                                <div>
-                                    <h2 className="font-semibold">Upazila</h2>
-                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_upazila}</p>
-                                </div>
-                                <div>
-                                    <h2 className="font-semibold">Post Office</h2>
-                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.permanent_post_office}</p>
-                                </div>
+                        <h1 className="text-lg font-bold pb-3 mt-10">Present Address</h1>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <h2 className="font-semibold">Village</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_village}</p>
                             </div>
-                            {/* present address  */}
-
-                            <h1 className="text-lg font-bold pb-3 mt-10">Present Address</h1>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div>
-                                    <h2 className="font-semibold">Village</h2>
-                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_village}</p>
-                                </div>
-                                <div>
-                                    <h2 className="font-semibold">Division</h2>
-                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_division}</p>
-                                </div>
-                                <div>
-                                    <h2 className="font-semibold">District</h2>
-                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_district}</p>
-                                </div>
-                                <div>
-                                    <h2 className="font-semibold">Upazila</h2>
-                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_upazila}</p>
-                                </div>
-                                <div>
-                                    <h2 className="font-semibold">Post Office</h2>
-                                    <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_post_office}</p>
-                                </div>
+                            <div>
+                                <h2 className="font-semibold">Division</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_division}</p>
+                            </div>
+                            <div>
+                                <h2 className="font-semibold">District</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_district}</p>
+                            </div>
+                            <div>
+                                <h2 className="font-semibold">Upazila</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_upazila}</p>
+                            </div>
+                            <div>
+                                <h2 className="font-semibold">Post Office</h2>
+                                <p className="bg-green-50 w-50 rounded-xs p-1">{profile.present_post_office}</p>
                             </div>
                         </div>
                     </div>

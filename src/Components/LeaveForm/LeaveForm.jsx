@@ -20,6 +20,7 @@ const LeaveForm = () => {
             return res.data
         }
     })
+    const employee = employees.result || []
 
     const handleAddleave = async (data) => {
         let imageUrl = "";
@@ -84,7 +85,7 @@ const LeaveForm = () => {
                         <select defaultValue="Select Department" className="select flex w-full" {...register("employee_name")}>
                             <option value="select employee">Select Employee</option>
                             {
-                                employees.map(empl =>
+                                employee.map(empl =>
                                     <option key={empl._id}>{empl.employee_id}-{empl.employee_name}</option>
                                 )
                             }
